@@ -1,0 +1,5 @@
+{
+	"jest.autoRun": "off",
+	"prettier.requireConfig": true,
+	"javascript.suggest.completeJSDocs": true
+}
