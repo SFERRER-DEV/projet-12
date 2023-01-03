@@ -14,12 +14,13 @@ const Content = styled.main`
  * Page tableau de bord: Accueil
  * @returns {JSX.Element} La page Home
  */
-function Home() {
+function Dashboard(props) {
+  const { pageName } = props;
   return (
     <Content>
-      <h1>Dashboard</h1>
+      <h1>{pageName}</h1>
     </Content>
   );
 }
 
-export default Home;
+export default Dashboard;

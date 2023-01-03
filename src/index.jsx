@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import DemoPage from './pages/DemoPage';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import Copyright from './components/Copyright';
@@ -18,13 +19,34 @@ root.render(
       <Copyright />
       <Switch>
         <Route exact path="/">
-          <Home />
+          {/* <Dashboard /> */}
         </Route>
-        <Route path="/Home">
-          <Home />
+        <Route exact path="/Dashboard/">
+          <Dashboard pageName="Tableau de bord - Home" />
         </Route>
-        <Route path={['Profile', 'Setting', 'Community']}>
-          <Home />
+        <Route path="/Dashboard/Home">
+          <Dashboard pageName="Tableau de bord - Home" />
+        </Route>
+        <Route path="/Dashboard/Recovery">
+          <DemoPage pageName="Tableau de bord - Récupération" />
+        </Route>
+        <Route path="/Dashboard/Swimming">
+          <DemoPage pageName="Tableau de bord - Natation" />
+        </Route>
+        <Route path="/Dashboard/Cycling">
+          <DemoPage pageName="Tableau de bord - Cyclisme" />
+        </Route>
+        <Route path="/Dashboard/Training">
+          <DemoPage pageName="Tableau de bord - Entrainement" />
+        </Route>
+        <Route path="/Profile">
+          <DemoPage pageName="Profil" />
+        </Route>
+        <Route path="/Setting">
+          <DemoPage pageName="Réglages" />
+        </Route>
+        <Route path="/Community">
+          <DemoPage pageName="Communauté" />
         </Route>
         <Route path="*"></Route>
       </Switch>

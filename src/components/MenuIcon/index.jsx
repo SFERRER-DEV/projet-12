@@ -38,30 +38,35 @@ function MenuICon(props) {
   const { name } = props;
   let altText = '';
   let iconSvg = '';
+  let urlRoute = '/';
 
   switch (name) {
-    case 'cycling':
-      altText = `icon cycling activity`;
-      iconSvg = cycling;
-      break;
     case 'recovery':
-      altText = `icon recovery activity`;
       iconSvg = recovery;
+      urlRoute = '/Dashboard/Recovery';
+      altText = `icon recovery activity`;
       break;
     case 'swimming':
-      altText = `icon swimming activity`;
       iconSvg = swimming;
+      urlRoute = '/Dashboard/Swimming';
+      altText = `icon swimming activity`;
+      break;
+    case 'cycling':
+      iconSvg = cycling;
+      urlRoute = '/Dashboard/Cycling';
+      altText = `icon cycling activity`;
       break;
     case 'training':
-      altText = `icon training activity`;
       iconSvg = training;
+      urlRoute = '/Dashboard/Training';
+      altText = `icon training activity`;
       break;
     default:
       altText = 'icon';
   }
 
   return (
-    <Link to="/">
+    <Link to={urlRoute}>
       <Container>
         <Icon src={iconSvg} alt={altText} />
       </Container>

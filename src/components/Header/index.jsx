@@ -67,7 +67,7 @@ function Header() {
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/Home"
+          to="/Dashboard/Home"
         >
           Accueil
         </StyledLink1>
