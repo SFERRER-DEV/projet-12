@@ -1,16 +1,24 @@
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
-import logo from '../../assets/logo.svg';
+
+/** @type {Object} Le contenu principal de la page est dans une balise `<main>` */
+const Content = styled.main`
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-row: auto / span 2;
+`;
 
 /**
- * Page d'accueil
+ * Page tableau de bord: Accueil
  * @returns {JSX.Element} La page Home
  */
 function Home() {
   return (
-    <main>
+    <Content>
       <h1>Dashboard</h1>
-    </main>
+    </Content>
   );
 }
 

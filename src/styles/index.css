@@ -6,14 +6,23 @@
   padding: 0;
 }
 
-html,
-body {
+html {
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 #root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: minmax(40px, 1fr) 20fr;
+  grid-template-rows: 10% 45% 45%;
 }

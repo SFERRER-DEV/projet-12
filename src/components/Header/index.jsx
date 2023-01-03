@@ -5,15 +5,17 @@ import { StyledLink1, StyledLink2 } from '../../utils/style/Atoms';
 
 /** @type {Object} L'entête de page est une balise `<header>` */
 const PageHeader = styled.header`
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-column: auto / span 2;
   display: flex;
   flex-direction: row;
   flex-wrap: no-wrap;
   align-items: center;
-  height: 6em;
   background-color: ${colors.background};
   border: 3px red solid;
     & a.pageheader__link {
-      flex-basis: 12%;
+      flex-basis: 10%;
       flex-grow: 1;
       display:flex;
       justify-content: flex-around;
@@ -36,7 +38,7 @@ const NavContainer = styled.nav`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  flex-basis: 85%;
+  flex-basis: 90%;
   flex-grow: 1;
   align-items: center;
   height: 100%;

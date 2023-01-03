@@ -3,13 +3,11 @@ import { createGlobalStyle } from 'styled-components';
 const StyledGlobalStyle = createGlobalStyle`
   main {
     display:flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
-    flex-grow: 1;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
-    padding: 0 1em;
-    border: 3px red solid;
+    border: 3px blue solid;
   }
 `;
 
