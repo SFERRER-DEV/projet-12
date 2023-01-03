@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 import training from '../../assets/training.svg';
@@ -35,9 +36,13 @@ const Icon = styled.img`
  * @returns {React.ReactElement} Un composant MenuIcon
  */
 function MenuICon(props) {
+  /** @type {string} Nom du type d'icône demandé */
   const { name } = props;
+  /** @type {string} Texte aternatif de l'image */
   let altText = '';
+  /** @type {string} Le fichier de l'icône au format svg */
   let iconSvg = '';
+  /** @type {string} L'url vers laquelle l'icône pointe (Route)*/
   let urlRoute = '/';
 
   switch (name) {
@@ -63,6 +68,7 @@ function MenuICon(props) {
       break;
     default:
       altText = 'icon';
+      urlRoute = '/Dashboard';
   }
 
   return (
@@ -73,5 +79,10 @@ function MenuICon(props) {
     </Link>
   );
 }
+
+MenuICon.propTypes = {
+  name: PropTypes.oneOf(['recovery', 'swimming', 'cycling', 'training'])
+    .isRequired,
+};
 
 export default MenuICon;
