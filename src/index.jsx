@@ -18,34 +18,28 @@ root.render(
       <Menu />
       <Copyright />
       <Switch>
-        <Route exact path="/">
-          {/* <Dashboard /> */}
-        </Route>
-        <Route exact path="/dashboard/">
-          <Dashboard menu="Accueil" />
-        </Route>
         <Route path="/dashboard/home/:id">
           <Dashboard menu="Accueil" />
         </Route>
-        <Route path="/dashboard/recovery">
+        <Route path="/dashboard/recovery/:id">
           <Dashboard menu="Récupération" />
         </Route>
-        <Route path="/dashboard/swimming">
+        <Route path="/dashboard/swimming/:id">
           <Dashboard menu="Natation" />
         </Route>
-        <Route path="/dashboard/cycling">
+        <Route path="/dashboard/cycling/:id">
           <Dashboard menu="Cyclisme" />
         </Route>
-        <Route path="/dashboard/training">
+        <Route path="/dashboard/training/:id">
           <Dashboard menu="Entrainement" />
         </Route>
-        <Route path="/profile">
+        <Route path="/profile/:id">
           <DemoPage pageName="Profil" />
         </Route>
-        <Route path="/setting">
+        <Route path="/setting/:id">
           <DemoPage pageName="Réglages" />
         </Route>
-        <Route path="/community">
+        <Route path="/community/:id">
           <DemoPage pageName="Communauté" />
         </Route>
         <Route path="*"></Route>

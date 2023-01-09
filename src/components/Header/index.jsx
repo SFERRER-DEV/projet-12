@@ -1,5 +1,7 @@
+import { useParams, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import colors from '../../utils/style/colors';
 import { StyledLink1, StyledLink2 } from '../../utils/style/Atoms';
 
@@ -56,7 +58,24 @@ const NavContainer = styled.nav`
  * Un composant pour afficher l'entête de page avec la navigation principale
  * @returns {React.ReactElement} Un composant Header
  */
-function Header() {
+function Header(props) {
+  /** @typedef {number} defaultUserId identifiant de l'utilisateur défini par défaut */
+  const { defaultUserId } = props;
+  /** @type {string} uri identifiant de la route d'accès actuelle */
+  const uri = useLocation().pathname;
+  /** @type {number} uriUserId identifiant extrait depuis la chaine de caractères de la route actuelle */
+  const uriUserId = parseInt(uri.split(/[//]+/).pop());
+  /** @typedef {number} id identifiant utilisateur obtenu depuis le paramètre id de la route */
+  const { id } = useParams();
+
+  /** @type {number} choosenId identifiant utilisateur prévalant */
+  let choosenId =
+    id === undefined // Obtenu depuis le routing
+      ? uriUserId === undefined || isNaN(uriUserId) // Obtenu dans la chaine de la route
+        ? defaultUserId // Obtenu par défaut avec la PropTypes
+        : uriUserId
+      : id;
+
   return (
     <PageHeader className="pageheader">
       <StyledLink2 className="pageheader__link" to="/">
@@ -67,28 +86,28 @@ function Header() {
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/dashboard/home/12"
+          to={'/dashboard/home/' + choosenId}
         >
           Accueil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/profile"
+          to={'/profile/' + choosenId}
         >
           Profil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/setting"
+          to={'/setting/' + choosenId}
         >
           Réglage
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/community"
+          to={'/community/' + choosenId}
         >
           Communauté
         </StyledLink1>
@@ -96,5 +115,13 @@ function Header() {
     </PageHeader>
   );
 }
+
+Header.propTypes = {
+  defaultUserId: PropTypes.number,
+};
+
+Header.defaultProps = {
+  defaultUserId: 12, // Karl est l'utilisateur affiché par défaut
+};
 
 export default Header;

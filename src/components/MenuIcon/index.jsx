@@ -32,12 +32,14 @@ const Icon = styled.img`
 `;
 
 /**
- * Un composant pour afficher une entrée du menu de navigation latérale avec une icône dans un lien
+ * @description Un composant pour afficher une entrée du menu de navigation latérale avec une icône dans un lien
+ * @param {Object} props Les propriétés destructurées: name et userId
+ * @param {string} props.name Un type d'icône valide pour PropTypes
+ * @param {number} props.userId L'identifiant utilisateur à écrire dans l'url du composant Link
  * @returns {React.ReactElement} Un composant MenuIcon
  */
 function MenuICon(props) {
-  /** @type {string} Nom du type d'icône demandé */
-  const { name } = props;
+  const { name, userId } = props;
   /** @type {string} Texte aternatif de l'image */
   let altText = '';
   /** @type {string} Le fichier de l'icône au format svg */
@@ -48,27 +50,26 @@ function MenuICon(props) {
   switch (name) {
     case 'recovery':
       iconSvg = recovery;
-      urlRoute = '/dashboard/recovery';
+      urlRoute = `/dashboard/recovery/${userId}`;
       altText = `icon recovery activity`;
       break;
     case 'swimming':
       iconSvg = swimming;
-      urlRoute = '/dashboard/swimming';
+      urlRoute = `/dashboard/swimming/${userId}`;
       altText = `icon swimming activity`;
       break;
     case 'cycling':
       iconSvg = cycling;
-      urlRoute = '/dashboard/cycling';
+      urlRoute = `/dashboard/cycling/${userId}`;
       altText = `icon cycling activity`;
       break;
     case 'training':
       iconSvg = training;
-      urlRoute = '/dashboard/training';
+      urlRoute = `/dashboard/training/${userId}`;
       altText = `icon training activity`;
       break;
     default:
-      altText = 'icon';
-      urlRoute = '/dashboard';
+    // do nothing
   }
 
   return (
@@ -83,6 +84,7 @@ function MenuICon(props) {
 MenuICon.propTypes = {
   name: PropTypes.oneOf(['recovery', 'swimming', 'cycling', 'training'])
     .isRequired,
+  userId: PropTypes.number.isRequired,
 };
 
 export default MenuICon;
