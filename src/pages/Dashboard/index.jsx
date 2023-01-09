@@ -27,14 +27,14 @@ const LoaderWrapper = styled.div`
 `;
 
 /**
- * @description Page tableau de bord: Accueil utilisateur
+ * Page tableau de bord: Accueil utilisateur
  * @param {Object} props
  * @param {string} props.pageName Le titre de la page
  * @param {string} props.menu Le nom du tableau de bord sélectionné dans le menu
  * @returns {JSX.Element} La page d'accueil du tableau de bord
  */
 function Dashboard(props) {
-  const { pageName, menu } = props;
+  const { menu } = props;
   /**
    * @typedef {Object} params
    * @property {number} id L'identifiant d'un utilisateur obtenu depuis la route
@@ -44,38 +44,24 @@ function Dashboard(props) {
   /**
    * @typedef {Object} useFetchUser
    * @property {Object} data
-   * @property {boolean} isDataLoading
-   * @property {boolean} error
+   * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
+   * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
+   * @property {string} errorMessage La raison de l'erreur
    */
   /** @type {useFetchUser} */
-  const { data, isDataLoading, error } = useFetchUser(id);
+  const { data, isLoading, error, errorMessage } = useFetchUser(id);
+
+  const { seconds } = useTimer(1);
 
   const congratulations =
     'Félicitation ! Vous avez explosé vos objectifs hier 👏';
-
-  /**
-   * @typedef {number} seconds Nombre de seconde(s) à attendre
-   */
-  const [
-    /** @type {seconds} */
-    seconds,
-    setSeconds,
-  ] = useState(1); // 1s
-  /**
-   * Temporiser avant d'afficher les logements pour voir le sablier
-   */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (seconds > 0) setSeconds((seconds) => seconds - 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [seconds]);
 
   if (error) {
     <div style={{ fontSize: '2em', margin: '2em 0', padding: '1em' }}>
       Oups il y a eu un problème
     </div>;
   }
+
   return (
     <Container>
       <h1>{menu}</h1>
