@@ -7,8 +7,9 @@ import PropTypes from 'prop-types';
  * @param {number} id Idenfifiant d'un utilisateur
  * @returns {stateReturns} Les données de State
  * @returns {Object} stateReturns.data Les données principales d'un utilisateur au format JSON
- * @returns {boolean} stateReturns.isDataLoading Les données sont-elle entrain de se charger ?
+ * @returns {boolean} stateReturns.iLoading Les données sont-elle entrain de se charger ?
  * @returns {boolean} stateReturns.error Est-ce qu'une erreur est survenue lors du chargement ?
+ * @returns {string} stateReturns.errorMessage La raison de l'exception levée
  */
 export function useFetchUser(id) {
   /** @typedef {Object} data Les données principales d'un utilisateur au format JSON */
@@ -17,6 +18,8 @@ export function useFetchUser(id) {
   const [isLoading, setLoading] = useState(true);
   /** @typedef {boolean} error  Est-ce qu'une erreur est survenue lors du chargement ? */
   const [error, setError] = useState(false);
+  /** @typedef {string} errorMessage  La raison de l'exception levée  */
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     /** @type {Object} Configuration de l'instance Axios */
@@ -25,7 +28,7 @@ export function useFetchUser(id) {
         Accept: 'application/json',
       },
       method: 'get',
-      timeout: 3000,
+      timeout: 5000,
       baseURL: process.env['REACT_APP_SERVER_URL'],
     };
     /** @type {Object} Création d'une instance Axios paramétrée */
@@ -41,28 +44,42 @@ export function useFetchUser(id) {
     async function fetchData(id) {
       /** @type {string} Point de terminaison de l'API pour récupérer les données principales d'un utlisateur*/
       const uri = `${process.env['REACT_APP_GET_USER']}/${id}`;
-      try {
-        //
-        const response = await http.get(uri);
-        // Si la réponse est un succès alors renvoyer la propriété data de l'objet JSON
-        // Destructurer data.data: { id, keyData: {...}, todayScore, userInfos: {...}
-        const {
-          data: { data },
-        } = response;
-        //
-        setData(data);
-      } catch (err) {
-        console.log(err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
+
+      await http
+        .get(uri)
+        .then((response) => {
+          // Si la réponse est un succès alors renvoyer la propriété data de l'objet JSON
+          // Destructurer data.data: { id, keyData: {...}, todayScore, userInfos: {...}
+          const {
+            data: { data },
+          } = response;
+          setData(data);
+        })
+        .catch((error /** est un object AxiosError */) => {
+          if (error.response) {
+            // si la réponse est en erreur
+            console.log(error.response.data);
+            console.log(error.response.status); // exemple Request failed with status code 404
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // si une erreur est survenue lors de l'envoi de la requête
+            console.log(error.request); // exemple Network Error
+          } else {
+            // si une erreur est survenue lors de l'initialisation de la requête
+            console.log('Error', error.message);
+          }
+          // affichage de l'objet config utilisé
+          console.log(error.config);
+          setError(true);
+          setErrorMessage(error.message);
+        })
+        .finally(() => setLoading(false));
     }
 
     fetchData(id);
   }, [id]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, errorMessage };
 }
 
 useFetchUser.propTypes = {
