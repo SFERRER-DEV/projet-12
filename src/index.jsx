@@ -21,31 +21,31 @@ root.render(
         <Route exact path="/">
           {/* <Dashboard /> */}
         </Route>
-        <Route exact path="/Dashboard/">
-          <Dashboard pageName="Tableau de bord - Home" />
+        <Route exact path="/dashboard/">
+          <Dashboard menu="Accueil" />
         </Route>
-        <Route path="/Dashboard/Home">
-          <Dashboard pageName="Tableau de bord - Home" />
+        <Route path="/dashboard/home/:id">
+          <Dashboard menu="Accueil" />
         </Route>
-        <Route path="/Dashboard/Recovery">
-          <DemoPage pageName="Tableau de bord - Récupération" />
+        <Route path="/dashboard/recovery">
+          <Dashboard menu="Récupération" />
         </Route>
-        <Route path="/Dashboard/Swimming">
-          <DemoPage pageName="Tableau de bord - Natation" />
+        <Route path="/dashboard/swimming">
+          <Dashboard menu="Natation" />
         </Route>
-        <Route path="/Dashboard/Cycling">
-          <DemoPage pageName="Tableau de bord - Cyclisme" />
+        <Route path="/dashboard/cycling">
+          <Dashboard menu="Cyclisme" />
         </Route>
-        <Route path="/Dashboard/Training">
-          <DemoPage pageName="Tableau de bord - Entrainement" />
+        <Route path="/dashboard/training">
+          <Dashboard menu="Entrainement" />
         </Route>
-        <Route path="/Profile">
+        <Route path="/profile">
           <DemoPage pageName="Profil" />
         </Route>
-        <Route path="/Setting">
+        <Route path="/setting">
           <DemoPage pageName="Réglages" />
         </Route>
-        <Route path="/Community">
+        <Route path="/community">
           <DemoPage pageName="Communauté" />
         </Route>
         <Route path="*"></Route>

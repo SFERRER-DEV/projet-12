@@ -48,27 +48,27 @@ function MenuICon(props) {
   switch (name) {
     case 'recovery':
       iconSvg = recovery;
-      urlRoute = '/Dashboard/Recovery';
+      urlRoute = '/dashboard/recovery';
       altText = `icon recovery activity`;
       break;
     case 'swimming':
       iconSvg = swimming;
-      urlRoute = '/Dashboard/Swimming';
+      urlRoute = '/dashboard/swimming';
       altText = `icon swimming activity`;
       break;
     case 'cycling':
       iconSvg = cycling;
-      urlRoute = '/Dashboard/Cycling';
+      urlRoute = '/dashboard/cycling';
       altText = `icon cycling activity`;
       break;
     case 'training':
       iconSvg = training;
-      urlRoute = '/Dashboard/Training';
+      urlRoute = '/dashboard/training';
       altText = `icon training activity`;
       break;
     default:
       altText = 'icon';
-      urlRoute = '/Dashboard';
+      urlRoute = '/dashboard';
   }
 
   return (

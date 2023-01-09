@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 /** @type {Object} Le contenu principal de la page est dans une balise `<main>` à positionner dans une Grid */
-const Content = styled.main`
+const Container = styled.main`
   display: flex;
   flex-direction: column;
   grid-column-start: 2;
@@ -18,10 +18,10 @@ const Content = styled.main`
 function DemoPage(props) {
   const { pageName } = props;
   return (
-    <Content>
+    <Container>
       <h1>{pageName}</h1>
       <h2>DemoPage</h2>
-    </Content>
+    </Container>
   );
 }
 

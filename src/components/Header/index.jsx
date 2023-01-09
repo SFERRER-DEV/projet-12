@@ -67,28 +67,28 @@ function Header() {
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/Dashboard/Home"
+          to="/dashboard/home/12"
         >
           Accueil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/Profile"
+          to="/profile"
         >
           Profil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/Setting"
+          to="/setting"
         >
           Réglage
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to="/Community"
+          to="/community"
         >
           Communauté
         </StyledLink1>
