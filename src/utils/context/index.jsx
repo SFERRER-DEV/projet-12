@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 import { useFetchUser } from '../../utils/services/api/hooks';
-/** @typedef {import('./typedef').UserJSON} UserJSON Raccourci pour importer les types des données JSON d'un utilisateur */
+/** @typedef {import('./typedef').UserJSON} UserJSON Raccourci important des types des données du JSON */
 
 export const UserContext = createContext();
 
@@ -9,13 +9,13 @@ export const UserContext = createContext();
  * @param {Object} props Propriétés destructurées id, children
  * @param {string} props.id L'identifiant utilisateur utilisé pour chercher les données sur l'Api
  * @param {*} props.children Les enfants passés au contexte de données
- * @returns {Object} Le provider du contexte des données principales de l'utilisateur
+ * @returns {Object} Le provider de contexte des données principales de l'utilisateur
  */
 export const UserProvider = (props) => {
   const { id, children } = props;
   /**
    * @typedef {Object} useFetchUser
-   * @property {Object} data
+   * @property {UserJSON} data Les données utilisateur au format JSON
    * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
    * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
    * @property {string} errorMessage La raison de l'erreur
