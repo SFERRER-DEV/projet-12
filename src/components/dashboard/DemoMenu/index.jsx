@@ -54,10 +54,11 @@ function DemoMenu(props) {
         </div>
       ) : (
         <div>
-          <h1>
-            {menu} : Bonjour <span>{data.userInfos.firstName}</span>
-          </h1>
-          <h2>Démo menu</h2>
+          <h1>{menu}</h1>
+          <h2>DemoMenu</h2>
+          <p>
+            Bonjour <span>{data.userInfos.firstName}</span>
+          </p>
         </div>
       )}
     </Container>

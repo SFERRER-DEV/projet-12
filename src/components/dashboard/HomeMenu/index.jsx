@@ -3,6 +3,9 @@ import { UserContext } from '../../../utils/context';
 import { useTimer } from '../../../utils/hooks';
 import { LoaderHourGlass } from '../../../utils/style/Atoms';
 import styled from 'styled-components';
+import User from '../../../models/User';
+import userFactory from '../../../factories/userFactory';
+/** @typedef {import('../../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Le conteneur du composant est une balise `<div>` */
 const Container = styled.div`
@@ -29,7 +32,7 @@ const LoaderWrapper = styled.div`
 function HomeMenu() {
   /**
    * @typedef {Object} UserContext
-   * @property {Object} data
+   * @property {UserJSON} data Les données utilisateur au format JSON
    * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
    * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
    * @property {string} errorMessage La raison de l'erreur
@@ -39,6 +42,23 @@ function HomeMenu() {
 
   /** @typedef {number} seconds Temps restant en secondes */
   const { seconds } = useTimer(1);
+
+  /** @type {User} Un utilisateur fabriqué */
+  let user;
+  // Fabriquer l'utilisateur typé quand le chargement est terminé sans erreur et après le timer
+  if (!isLoading && !error && seconds === 0) {
+    // Protection
+    if (Object.keys(data).length > 0 && Object.keys(data.keyData).length > 0) {
+      /** @type {userFactory} Factory Method qui fabrique un utilisateur complet à partir des données JSON */
+      const userModel = userFactory(data);
+      // Fabriquer l'utilisateur
+      user = userModel.getUser();
+      console.log('>>> User made <<<');
+      console.table(user);
+    } else {
+      // @TODO: Marquer une erreur
+    }
+  }
 
   const congratulations =
     'Félicitation ! Vous avez explosé vos objectifs hier 👏';
@@ -56,9 +76,16 @@ function HomeMenu() {
         </div>
       ) : (
         <div>
-          <h2>
+          <h1>Accueil</h1>
+          <h2>HomeMenu</h2>
+          <p>
+            {/** à parti du JSON */}
             Bonjour <span>{data.userInfos.firstName}</span>
-          </h2>
+          </p>
+          <p>
+            {/** Douada ? */}
+            Bonjour <span>{/** user.firstName */}</span>
+          </p>
           <p>{congratulations}</p>
         </div>
       )}
