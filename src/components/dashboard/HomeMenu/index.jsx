@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../../../utils/context';
-import { LoaderHourGlass } from '../../../utils/style/Atoms';
 import styled from 'styled-components';
 import userFactory from '../../../factories/userFactory';
+import Loader from '../../Loader';
 /** @typedef {import('../../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Le conteneur du composant est une balise `<div>` */
@@ -11,16 +11,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-/** @type {Object} Un conteneur pour afficher et centrer l'animation d'attente dans une balise `<div>` */
-const LoaderWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-grow: 1;
-  justify-content: center;
-  align-content: center;
-  height: 15em;
 `;
 
 /**
@@ -50,16 +40,6 @@ function HomeMenu() {
   /** @type {User} Un utilisateur à fabriquer */
   let user;
 
-  /**
-   * Temporiser avant d'afficher les données de l'utilisateur
-   */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (seconds > 0) setSeconds((seconds) => seconds - 1);
-    }, 750);
-    return () => clearInterval(interval);
-  }, [seconds]);
-
   // Fabriquer l'utilisateur typé quand le chargement est terminé sans erreur et à la fin du timer
   if (!isLoading && !error && seconds === 0) {
     // Protection
@@ -77,9 +57,7 @@ function HomeMenu() {
   return (
     <Container>
       {isLoading || seconds > 0 ? (
-        <LoaderWrapper>
-          <LoaderHourGlass />
-        </LoaderWrapper>
+        <Loader seconds={seconds} setSeconds={setSeconds} />
       ) : error ? (
         <div style={{ fontSize: '2em', margin: '2em 0', padding: '1em' }}>
           <h3>Oups il y a eu un problème</h3>
