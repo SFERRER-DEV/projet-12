@@ -18,21 +18,26 @@ root.render(
       <Menu />
       <Copyright />
       <Switch>
-        <Route path="/dashboard/home/:id">
-          <Dashboard menu="Accueil" />
-        </Route>
-        <Route path="/dashboard/recovery/:id">
-          <Dashboard menu="Récupération" />
-        </Route>
-        <Route path="/dashboard/swimming/:id">
-          <Dashboard menu="Natation" />
-        </Route>
-        <Route path="/dashboard/cycling/:id">
-          <Dashboard menu="Cyclisme" />
-        </Route>
-        <Route path="/dashboard/training/:id">
-          <Dashboard menu="Entrainement" />
-        </Route>
+        {/** les routes imbriquées à la page du tableau de bord ont besoin de se connecter au contexte de données */}
+          <Route path="/dashboard/home/:id">
+            <Dashboard menu="Accueil" />
+          </Route>
+          {/** order route #2 */}
+          <Route path="/dashboard/home/">
+            <Dashboard menu="Accueil" />
+          </Route>
+          <Route path="/dashboard/recovery/:id">
+            <Dashboard menu="Récupération" />
+          </Route>
+          <Route path="/dashboard/swimming/:id">
+            <Dashboard menu="Natation" />
+          </Route>
+          <Route path="/dashboard/cycling/:id">
+            <Dashboard menu="Cyclisme" />
+          </Route>
+          <Route path="/dashboard/training/:id">
+            <Dashboard menu="Entrainement" />
+          </Route>
         <Route path="/profile/:id">
           <DemoPage pageName="Profil" />
         </Route>

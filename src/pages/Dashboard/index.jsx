@@ -31,8 +31,13 @@ function Dashboard(props) {
   /** @type {params} */
   const { id } = useParams();
 
-  /** @type {number} userId L'identifiant de cet utilisateur mémorisé dans le State */
-  //const userId = useState(id);
+  if (isNaN(parseInt(id))) {
+    // Nettoyer, cette erreur d'identifiant est traité dans le hook fetchData
+    window.localStorage.removeItem('userId');
+  } else {
+    // Mémoriser localement l'identifiant de l'utilisateur
+    window.localStorage.setItem('userId', id);
+  }
 
   const location = useLocation();
   /** @type {boolean} isHomeMenu La route actuelle est-elle celle de l'accueil du tableau de bord ? */
@@ -41,9 +46,9 @@ function Dashboard(props) {
     .startsWith('/dashboard/home/');
 
   return (
-    <UserProvider id={id}>
+    <UserProvider>
       <Container>
-        {isHomeMenu ? <HomeMenu /> : <DemoMenu id={id} menu={menu} />}
+        {isHomeMenu ? <HomeMenu /> : <DemoMenu menu={menu} />}
       </Container>
     </UserProvider>
   );

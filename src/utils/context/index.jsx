@@ -6,13 +6,13 @@ export const UserContext = createContext();
 
 /**
  * @description Contexte pour partager les données principales d'un utilisateur
- * @param {Object} props Propriétés destructurées id, children
- * @param {string} props.id L'identifiant utilisateur utilisé pour chercher les données sur l'Api
  * @param {*} props.children Les enfants passés au contexte de données
  * @returns {Object} Le provider de contexte des données principales de l'utilisateur
  */
-export const UserProvider = (props) => {
-  const { id, children } = props;
+export const UserProvider = ({ children }) => {
+  /** @type {number} L'identifiant utlisateur a été mémorisé localement  */
+  let userId = parseInt(window.localStorage.getItem('userId'));
+
   /**
    * @typedef {Object} useFetchUser
    * @property {UserJSON} data Les données utilisateur au format JSON
@@ -21,12 +21,13 @@ export const UserProvider = (props) => {
    * @property {string} errorMessage La raison de l'erreur
    */
   /** @type {useFetchUser} */
-  const { data, isLoading, error, errorMessage } = useFetchUser(id);
+  const { data, isLoading, error, errorMessage } = useFetchUser(userId);
+  if (isNaN(userId) && !data) userId = null;
 
   return (
     <UserContext.Provider
       value={{
-        id,
+        userId,
         data,
         isLoading,
         error,

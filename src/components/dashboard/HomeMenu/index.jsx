@@ -1,9 +1,7 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../utils/context';
-import { useTimer } from '../../../utils/hooks';
 import { LoaderHourGlass } from '../../../utils/style/Atoms';
 import styled from 'styled-components';
-import User from '../../../models/User';
 import userFactory from '../../../factories/userFactory';
 /** @typedef {import('../../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
 
