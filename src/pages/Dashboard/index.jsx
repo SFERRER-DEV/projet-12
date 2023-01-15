@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { UserProvider } from '../../utils/context';
+import { UserProvider } from '../../utils/context/api-http';
+import { UserProviderMock } from '../../utils/context/api-http-mock';
 import HomeMenu from '../../components/dashboard/HomeMenu';
 import DemoMenu from '../../components/dashboard/DemoMenu';
 
@@ -24,6 +25,11 @@ const Container = styled.main`
  */
 function Dashboard(props) {
   const { menu } = props;
+  /** @typedef{boolean} haveToMock Etat du mock des données descend par les props des composants enfants */
+  /** @typedef{Function} setHaveToMock Fonction de mise à jour pour remonter l'état du mock des données depuis le composant enfant Error */
+  /** @type {[haveToMock, setHaveToMock]} */
+  const [haveToMock, setHaveToMock] = useState(false);
+
   /**
    * @typedef {Object} params
    * @property {number} id L'identifiant d'un utilisateur obtenu depuis la route
@@ -39,18 +45,44 @@ function Dashboard(props) {
     window.localStorage.setItem('userId', id);
   }
 
+  /** @type {Object} l'emplacement actuel */
   const location = useLocation();
+
   /** @type {boolean} isHomeMenu La route actuelle est-elle celle de l'accueil du tableau de bord ? */
   const isHomeMenu = location.pathname
     .toLowerCase()
     .startsWith('/dashboard/home/');
 
   return (
-    <UserProvider>
-      <Container>
-        {isHomeMenu ? <HomeMenu /> : <DemoMenu menu={menu} />}
-      </Container>
-    </UserProvider>
+    <Container>
+      {haveToMock ? (
+        /** Utiliser le provider pour se connecter au contexte des données mockées dans le fichier local */
+        <UserProviderMock>
+          {isHomeMenu ? (
+            <HomeMenu haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+          ) : (
+            <DemoMenu
+              haveToMock={haveToMock}
+              setHaveToMock={setHaveToMock}
+              menu={menu}
+            />
+          )}
+        </UserProviderMock>
+      ) : (
+        /** Utiliser le provider pour se connecter au contexte des données cherchées sur le backend */
+        <UserProvider>
+          {isHomeMenu ? (
+            <HomeMenu haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+          ) : (
+            <DemoMenu
+              haveToMock={haveToMock}
+              setHaveToMock={setHaveToMock}
+              menu={menu}
+            />
+          )}
+        </UserProvider>
+      )}
+    </Container>
   );
 }
 
