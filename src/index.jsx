@@ -7,7 +7,6 @@ import DemoPage from './pages/DemoPage';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import Copyright from './components/Copyright';
-
 import './styles/index.css';
 import GlobalStyle from './utils/style/GlobalStyle';
 
