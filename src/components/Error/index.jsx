@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 
@@ -15,6 +15,22 @@ const ErrorWrapper = styled.div`
       font-weight: 500;
     }
   }
+  & button {
+    background-color: ${colors.tertiary};
+    color: ${colors.secondary};
+    border: none;
+    border-radius: 0.25em;
+    height: 2em;
+    font-size: 0.75em;
+    font-weight: 500;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    margin: 1em 0;
+    cursor: pointer;
+  }
+  & button:hover {
+    color: ${colors.primary};
+  }
 `;
 
 /**
@@ -29,41 +45,24 @@ const ErrorWrapper = styled.div`
  * @returns {React.ReactElement} Error
  */
 function Error(props) {
-  const { codeStatus, error, errorMessage, haveToMock, setHaveToMock } = props;
-
-  /**
-   * @typedef {number} seconds Nombre de seconde(s) à attendre
-   */
-  const [
-    /** @type {seconds} */
-    seconds,
-    setSeconds,
-  ] = useState(3); // 3s
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (seconds > 0) setSeconds((seconds) => seconds - 1);
-    }, 750);
-    return () => clearInterval(interval);
-  }, [seconds, setSeconds]);
+  const { codeStatus, error, errorMessage, setHaveToMock } = props;
 
   // Si le backend n'est pas disponible alors les données doivent être obtenues en local
-  if (error && codeStatus === 'ERR_NETWORK' && seconds === 0) {
-    // Marquer les données comme devant être mockées, c'est à dire obtenues localement dans le fichier public/data/data.json
-    setHaveToMock(true);
+  if (error && codeStatus === 'ERR_NETWORK') {
+    console.log(`${Date.now()} - ${codeStatus}`);
   }
 
   return (
     <div>
-      {!haveToMock ? (
-        <ErrorWrapper>
-          <h3>Oups il y a eu un problème</h3>
-          <p>{errorMessage}</p>
-          <p>
-            Les données vont être mockées dans <span>{seconds}</span> secondes
-          </p>
-        </ErrorWrapper>
-      ) : null}
+      <ErrorWrapper>
+        <h3>Oups il y a eu un problème</h3>
+        <p>{errorMessage}</p>
+        {error && codeStatus === 'ERR_NETWORK' ? (
+          <button onClick={() => setHaveToMock(true)}>
+            Cliquer pour utiliser un mock des données
+          </button>
+        ) : null}
+      </ErrorWrapper>
     </div>
   );
 }

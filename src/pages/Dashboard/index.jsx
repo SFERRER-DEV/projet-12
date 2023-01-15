@@ -3,8 +3,8 @@ import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserProvider } from '../../utils/context/api-http';
 import { UserProviderMock } from '../../utils/context/api-http-mock';
-import HomeMenu from '../../components/dashboard/HomeMenu';
-import DemoMenu from '../../components/dashboard/DemoMenu';
+import HomeMenu from '../../components/HomeMenu';
+import DemoMenu from '../../components/DemoMenu';
 
 /** @type {Object} Le contenu principal de la page est dans une balise `<main>` */
 const Container = styled.main`
@@ -52,6 +52,8 @@ function Dashboard(props) {
   const isHomeMenu = location.pathname
     .toLowerCase()
     .startsWith('/dashboard/home/');
+
+  console.log(`${Date.now()} - State haveToMock = ${haveToMock}`);
 
   return (
     <Container>

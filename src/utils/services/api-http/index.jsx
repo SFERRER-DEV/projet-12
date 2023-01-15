@@ -37,7 +37,7 @@ export function useFetchUser(id) {
 
     /** @type {Object} Création d'une instance Axios paramétrée */
     const http = axios.create(config);
-    console.log(`${Date.now()} - Instanciation Axios`);
+    console.log(`${Date.now()} - Instanciation Axios par api-http`);
     setLoading(true); // Début du chargement des données
 
     /**

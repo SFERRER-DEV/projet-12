@@ -36,7 +36,7 @@ export function useFetchUserMock(id) {
 
     /** @type {Object} Création d'une instance Axios paramétrée */
     const http = axios.create(config);
-    console.log(`${Date.now()} - Instanciation Axios`);
+    console.log(`${Date.now()} - Instanciation Axios par api-http-mock`);
     setLoading(true); // Début du chargement des données
 
     /**
@@ -69,9 +69,16 @@ export function useFetchUserMock(id) {
           } = response;
           // Ne conserver que l'utilisateur concerné par le filtre
           const data = USER_MAIN_DATA.filter((item) => item.id === id).shift();
-          // Renseigner les données à retourner
-          setData(data);
-          setCodeStatus(response.statusText); // Successful responses (200 – 299)
+          if (data === undefined || data === null) {
+            setError(true);
+            setErrorMessage(
+              "Aucune donnée mockée correspondant à la demande n'a été trouvée"
+            );
+          } else {
+            // Renseigner les données à retourner
+            setData(data);
+            setCodeStatus(response.statusText); // Successful responses (200 – 299)
+          }
         })
         .catch((error /** est un object AxiosError */) => {
           if (error.response) {
