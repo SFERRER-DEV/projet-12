@@ -44,6 +44,9 @@ export function useFetchUser(id) {
     async function fetchData(id) {
       /** @type {string} Point de terminaison de l'API pour récupérer les données principales d'un utlisateur*/
       const uri = `${process.env['REACT_APP_GET_USER']}/${id}`;
+      // Nettoyer les erreurs précédentes
+      setError(false);
+      setErrorMessage('');
 
       await http
         .get(uri)
@@ -75,8 +78,18 @@ export function useFetchUser(id) {
         })
         .finally(() => setLoading(false));
     }
-
-    fetchData(id);
+    // L'identifiant utilisateur est mémorisé localement après avoir été obtenu par le routing : /route/:id
+    if (isNaN(id)) {
+      // Nettoyer
+      window.localStorage.removeItem('userId');
+      // Avertir
+      setData(null);
+      setError(true);
+      setErrorMessage(`Erreur avec l'identifiant utilisateur`);
+      setLoading(false);
+    } else {
+      fetchData(id);
+    }
   }, [id]);
 
   return { data, isLoading, error, errorMessage };
