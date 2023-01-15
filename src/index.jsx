@@ -18,34 +18,28 @@ root.render(
       <Menu />
       <Copyright />
       <Switch>
-        <Route exact path="/">
-          {/* <Dashboard /> */}
+        <Route path="/dashboard/home/:id">
+          <Dashboard menu="Accueil" />
         </Route>
-        <Route exact path="/Dashboard/">
-          <Dashboard pageName="Tableau de bord - Home" />
+        <Route path="/dashboard/recovery/:id">
+          <Dashboard menu="Récupération" />
         </Route>
-        <Route path="/Dashboard/Home">
-          <Dashboard pageName="Tableau de bord - Home" />
+        <Route path="/dashboard/swimming/:id">
+          <Dashboard menu="Natation" />
         </Route>
-        <Route path="/Dashboard/Recovery">
-          <DemoPage pageName="Tableau de bord - Récupération" />
+        <Route path="/dashboard/cycling/:id">
+          <Dashboard menu="Cyclisme" />
         </Route>
-        <Route path="/Dashboard/Swimming">
-          <DemoPage pageName="Tableau de bord - Natation" />
+        <Route path="/dashboard/training/:id">
+          <Dashboard menu="Entrainement" />
         </Route>
-        <Route path="/Dashboard/Cycling">
-          <DemoPage pageName="Tableau de bord - Cyclisme" />
-        </Route>
-        <Route path="/Dashboard/Training">
-          <DemoPage pageName="Tableau de bord - Entrainement" />
-        </Route>
-        <Route path="/Profile">
+        <Route path="/profile/:id">
           <DemoPage pageName="Profil" />
         </Route>
-        <Route path="/Setting">
+        <Route path="/setting/:id">
           <DemoPage pageName="Réglages" />
         </Route>
-        <Route path="/Community">
+        <Route path="/community/:id">
           <DemoPage pageName="Communauté" />
         </Route>
         <Route path="*"></Route>
