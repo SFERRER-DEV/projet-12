@@ -9,8 +9,8 @@ import Error from '../Error';
 /** @typedef {import('../../utils/context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
 /** @typedef {import('../../utils/context/typedef').UserContextMock} UserContextMock Raccourci pour importer des types des propriétés JSON */
 
-/** @type {Object} Le conteneur du composant est une balise `<div>` */
-const Container = styled.div`
+/** @type {Object} Le conteneur du composant est une balise `<section>` avec un grille flexible */
+const Container = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,7 +25,7 @@ const Container = styled.div`
  * @param {Function} props.setHaveToMock Fonction de mise à jour pour remonter l'état du mock
  * @returns {React.ReactElement} Home
  */
-function HomeMenu(props) {
+function Home(props) {
   const { haveToMock, setHaveToMock } = props;
 
   /** @type {UserContext | UserContextMock } */
@@ -60,7 +60,7 @@ function HomeMenu(props) {
     'Félicitation ! Vous avez explosé vos objectifs hier 👏';
 
   return (
-    <Container>
+    <Container className="dashboard__home">
       {isLoading || seconds > 0 ? (
         <Loader seconds={seconds} setSeconds={setSeconds} />
       ) : error ? (
@@ -85,4 +85,4 @@ function HomeMenu(props) {
   );
 }
 
-export default HomeMenu;
+export default Home;

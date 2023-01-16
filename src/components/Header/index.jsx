@@ -15,7 +15,6 @@ const PageHeader = styled.header`
   flex-wrap: no-wrap;
   align-items: center;
   background-color: ${colors.background};
-  border: 3px red solid;
     & a.pageheader__link {
       flex-basis: 10%;
       flex-grow: 1;
@@ -59,22 +58,27 @@ const NavContainer = styled.nav`
  * @returns {React.ReactElement} Un composant Header
  */
 function Header(props) {
-  /** @typedef {number} defaultUserId identifiant de l'utilisateur défini par défaut */
-  const { defaultUserId } = props;
   /** @type {string} uri identifiant de la route d'accès actuelle */
   const uri = useLocation().pathname;
-  /** @type {number} uriUserId identifiant extrait depuis la chaine de caractères de la route actuelle */
-  const uriUserId = parseInt(uri.split(/[//]+/).pop());
-  /** @typedef {number} id identifiant utilisateur obtenu depuis le paramètre id de la route */
+
+  /** @type {number} L'identifiant utlisateur a été mémorisé localement #1 */
+  const userId = parseInt(window.localStorage.getItem('userId'));
+  /** @typedef {number} id identifiant utilisateur obtenu depuis le paramètre id de la route #2 */
   const { id } = useParams();
+  /** @type {number} uriUserId identifiant extrait depuis la chaine de caractères de la route actuelle # 3*/
+  const uriUserId = parseInt(uri.split(/[//]+/).pop());
+  /** @typedef {number} defaultUserId identifiant de l'utilisateur défini par défaut #4*/
+  const { defaultUserId } = props;
 
   /** @type {number} choosenId identifiant utilisateur prévalant */
   let choosenId =
-    id === undefined // Obtenu depuis le routing
-      ? uriUserId === undefined || isNaN(uriUserId) // Obtenu dans la chaine de la route
-        ? defaultUserId // Obtenu par défaut avec la PropTypes
-        : uriUserId
-      : id;
+    id === undefined
+      ? userId === undefined
+        ? uriUserId === undefined || isNaN(uriUserId)
+          ? defaultUserId // Obtenu par défaut avec la PropTypes (= Karl)
+          : uriUserId // Obtenu dans la chaine de la route
+        : userId // Obtenu depuis le localStorage
+      : id; // Obtenu depuis le routing
 
   return (
     <PageHeader className="pageheader">
@@ -86,28 +90,28 @@ function Header(props) {
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={'/dashboard/home/' + choosenId}
+          to={`/dashboard/home/${choosenId}`}
         >
           Accueil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={'/profile/' + choosenId}
+          to={`/dashboard/profile/${choosenId}`}
         >
           Profil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={'/setting/' + choosenId}
+          to={`/dashboard/setting/${choosenId}`}
         >
           Réglage
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={'/community/' + choosenId}
+          to={`/dashboard/community/${choosenId}`}
         >
           Communauté
         </StyledLink1>

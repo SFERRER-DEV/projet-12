@@ -23,6 +23,11 @@ body {
 #root {
   flex-grow: 1;
   display: grid;
-  grid-template-columns: minmax(40px, 1fr) 20fr;
+  grid-template-columns: minmax(3.125em, 1fr) 20fr;
   grid-template-rows: 10% 45% 45%;
+}
+
+/* Conteneur du profil utilisateur */
+.homepage {
+  border: 3px blue dotted;
 }

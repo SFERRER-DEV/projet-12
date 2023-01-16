@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
+import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
 import DemoPage from './pages/DemoPage';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import Copyright from './components/Copyright';
+
 import './styles/index.css';
 import GlobalStyle from './utils/style/GlobalStyle';
 
@@ -18,33 +20,33 @@ root.render(
       <Menu />
       <Copyright />
       <Switch>
-        {/** order route #1 */}
+        {/** page accueil order route #1 */}
         <Route path="/dashboard/home/:id">
-          <Dashboard menu="Accueil" />
+          <HomePage />
         </Route>
-        {/** order route #2 */}
+        {/** page accueil ordre route #2 */}
         <Route path="/dashboard/home/">
-          <Dashboard menu="Accueil" />
+          <HomePage />
         </Route>
-        <Route path="/dashboard/recovery/:id">
-          <Dashboard menu="Récupération" />
+        {/** page profil ordre route #1 */}
+        <Route path="/dashboard/profile/:id">
+          <ProfilePage />
         </Route>
-        <Route path="/dashboard/swimming/:id">
-          <Dashboard menu="Natation" />
+        {/** page profil ordre route #2 */}
+        <Route path="/dashboard/profile/">
+          <ProfilePage />
         </Route>
-        <Route path="/dashboard/cycling/:id">
-          <Dashboard menu="Cyclisme" />
-        </Route>
-        <Route path="/dashboard/training/:id">
-          <Dashboard menu="Entrainement" />
-        </Route>
-        <Route path="/profile/:id">
-          <DemoPage pageName="Profil" />
-        </Route>
-        <Route path="/setting/:id">
+        {/** Pages de démo*/}
+        <Route path="/dashboard/setting/:id">
           <DemoPage pageName="Réglages" />
         </Route>
-        <Route path="/community/:id">
+        <Route path="/dashboard/setting/">
+          <DemoPage pageName="Réglages" />
+        </Route>
+        <Route path="/dashboard/community/:id">
+          <DemoPage pageName="Communauté" />
+        </Route>
+        <Route path="/dashboard/community/">
           <DemoPage pageName="Communauté" />
         </Route>
         <Route path="*"></Route>
