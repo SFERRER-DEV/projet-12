@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserProvider } from '../../utils/context/api-http';
 import { UserProviderMock } from '../../utils/context/api-http-mock';
-import HomeMenu from '../../components/HomeMenu';
-import DemoMenu from '../../components/DemoMenu';
+import Profile from '../../components/Profile';
 
-/** @type {Object} Le contenu principal de la page est dans une balise `<main>` */
+/** @type {Object} Le contenu principal de la page est dans une balise `<main>` à positionner dans une Grid */
 const Container = styled.main`
   display: flex;
   flex-direction: column;
@@ -18,13 +17,10 @@ const Container = styled.main`
 `;
 
 /**
- * @description Page tableau de bord: Accueil utilisateur
- * @param {Object} props
- * @param {string} props.menu Le nom du tableau de bord sélectionné dans le menu
- * @returns {JSX.Element} La page d'accueil du tableau de bord
+ * @description Page profil de l'utilisateur
+ * @returns {JSX.Element} Page profil
  */
-function Dashboard(props) {
-  const { menu } = props;
+function ProfilePage() {
   /** @typedef{boolean} haveToMock Etat du mock des données descend par les props des composants enfants */
   /** @typedef{Function} setHaveToMock Fonction de mise à jour pour remonter l'état du mock des données depuis le composant enfant Error */
   /** @type {[haveToMock, setHaveToMock]} */
@@ -45,47 +41,23 @@ function Dashboard(props) {
     window.localStorage.setItem('userId', id);
   }
 
-  /** @type {Object} l'emplacement actuel */
-  const location = useLocation();
-
-  /** @type {boolean} isHomeMenu La route actuelle est-elle celle de l'accueil du tableau de bord ? */
-  const isHomeMenu = location.pathname
-    .toLowerCase()
-    .startsWith('/dashboard/home/');
-
   console.log(`${Date.now()} - State haveToMock = ${haveToMock}`);
 
   return (
-    <Container>
+    <Container className="profilpage">
       {haveToMock ? (
         /** Utiliser le provider pour se connecter au contexte des données mockées dans le fichier local */
         <UserProviderMock>
-          {isHomeMenu ? (
-            <HomeMenu haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-          ) : (
-            <DemoMenu
-              haveToMock={haveToMock}
-              setHaveToMock={setHaveToMock}
-              menu={menu}
-            />
-          )}
+          <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
         </UserProviderMock>
       ) : (
         /** Utiliser le provider pour se connecter au contexte des données cherchées sur le backend */
         <UserProvider>
-          {isHomeMenu ? (
-            <HomeMenu haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-          ) : (
-            <DemoMenu
-              haveToMock={haveToMock}
-              setHaveToMock={setHaveToMock}
-              menu={menu}
-            />
-          )}
+          <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
         </UserProvider>
       )}
     </Container>
   );
 }
 
-export default Dashboard;
+export default ProfilePage;

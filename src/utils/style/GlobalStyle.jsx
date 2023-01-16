@@ -7,7 +7,6 @@ const StyledGlobalStyle = createGlobalStyle`
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    border: 3px blue solid;
   }
 `;
 

@@ -9,8 +9,8 @@ import Error from '../Error';
 /** @typedef {import('../../utils/context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
 /** @typedef {import('../../utils/context/typedef').UserContextMock} UserContextMock Raccourci pour importer des types des propriétés JSON */
 
-/** @type {Object} Le conteneur du composant est une balise `<div>` */
-const Container = styled.div`
+/** @type {Object} Le conteneur du composant est une balise `<section>` avec un grille flexible */
+const Container = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,14 +18,14 @@ const Container = styled.div`
 `;
 
 /**
- * @description Un composant pour afficher l'accueil du tableau de board
- * et les graphiques sur l'activité sportive de l'utilisateur
+ * @description Un composant pour afficher le profile de l'utlisateur avec
+ * et les graphiques des activités sportives
  * @param {Object} props
  * @param {boolean} props.haveToMock Est-ce que les données sont cherchées dans le backend ou localement ?
  * @param {Function} props.setHaveToMock Fonction de mise à jour pour remonter l'état du mock
- * @returns {React.ReactElement} Home
+ * @returns {React.ReactElement} Profile
  */
-function HomeMenu(props) {
+function Profile(props) {
   const { haveToMock, setHaveToMock } = props;
 
   /** @type {UserContext | UserContextMock } */
@@ -59,30 +59,27 @@ function HomeMenu(props) {
   const congratulations =
     'Félicitation ! Vous avez explosé vos objectifs hier 👏';
 
-  return (
-    <Container>
-      {isLoading || seconds > 0 ? (
-        <Loader seconds={seconds} setSeconds={setSeconds} />
-      ) : error ? (
-        <Error
-          codeStatus={codeStatus}
-          error={error}
-          errorMessage={errorMessage}
-          haveToMock={haveToMock}
-          setHaveToMock={setHaveToMock}
-        />
-      ) : (
-        <div>
-          <h1>Accueil</h1>
-          <h2>HomeMenu</h2>
-          <p>
-            Bonjour <span>{user?.firstName}</span>
-          </p>
-          <p>{congratulations}</p>
-        </div>
-      )}
+  return isLoading || seconds > 0 ? (
+    <Loader seconds={seconds} setSeconds={setSeconds} />
+  ) : error ? (
+    <Error
+      codeStatus={codeStatus}
+      error={error}
+      errorMessage={errorMessage}
+      haveToMock={haveToMock}
+      setHaveToMock={setHaveToMock}
+    />
+  ) : (
+    <Container className="dashboard__profile">
+      <div>
+        <h1>Profil utilisateur</h1>
+        <h2>
+          Bonjour <span>{user?.firstName}</span>
+        </h2>
+        <p>{congratulations}</p>
+      </div>
     </Container>
   );
 }
 
-export default HomeMenu;
+export default Profile;

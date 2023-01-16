@@ -13,14 +13,14 @@ const Container = styled.main`
 
 /**
  * Page de démo pour les autres routes
- * @returns {JSX.Element} Une page de démo
+ * @returns {JSX.Element} Page demo
  */
 function DemoPage(props) {
   const { pageName } = props;
   return (
-    <Container>
+    <Container className="demopage">
       <h1>{pageName}</h1>
-      <h2>DemoPage</h2>
+      <h2>Page démo</h2>
     </Container>
   );
 }

@@ -1,12 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import colors from '../../utils/style/colors';
-import training from '../../assets/training.svg';
-import cycling from '../../assets/cycling.svg';
-import swimming from '../../assets/swimming.svg';
-import recovery from '../../assets/recovery.svg';
 
 /** @type {Object} Le container de l'icone d'une entrée du menu latéral est une balise `<div>` avec un fond blanc */
 const Container = styled.div`
@@ -34,43 +29,13 @@ const Icon = styled.img`
 /**
  * @description Un composant pour afficher une entrée du menu de navigation latérale avec une icône dans un lien
  * @param {Object} props Les propriétés destructurées: name et userId
- * @param {string} props.name Un type d'icône valide pour PropTypes
- * @param {number} props.userId L'identifiant utilisateur à écrire dans l'url du composant Link
+ * @param {string} props.urlRoute  L'url vers laquelle l'icône pointe (Route)
+ * @param {string} props.iconSvg Le fichier de l'icône au format svg
+ * @param {string} props.altText Texte aternatif de l'image
  * @returns {React.ReactElement} Un composant MenuIcon
  */
 function MenuICon(props) {
-  const { name, userId } = props;
-  /** @type {string} Texte aternatif de l'image */
-  let altText = '';
-  /** @type {string} Le fichier de l'icône au format svg */
-  let iconSvg = '';
-  /** @type {string} L'url vers laquelle l'icône pointe (Route)*/
-  let urlRoute = '/';
-
-  switch (name) {
-    case 'recovery':
-      iconSvg = recovery;
-      urlRoute = `/dashboard/recovery/${userId}`;
-      altText = `icon recovery activity`;
-      break;
-    case 'swimming':
-      iconSvg = swimming;
-      urlRoute = `/dashboard/swimming/${userId}`;
-      altText = `icon swimming activity`;
-      break;
-    case 'cycling':
-      iconSvg = cycling;
-      urlRoute = `/dashboard/cycling/${userId}`;
-      altText = `icon cycling activity`;
-      break;
-    case 'training':
-      iconSvg = training;
-      urlRoute = `/dashboard/training/${userId}`;
-      altText = `icon training activity`;
-      break;
-    default:
-    // do nothing
-  }
+  const { urlRoute, iconSvg, altText } = props;
 
   return (
     <Link to={urlRoute}>
@@ -80,11 +45,5 @@ function MenuICon(props) {
     </Link>
   );
 }
-
-MenuICon.propTypes = {
-  name: PropTypes.oneOf(['recovery', 'swimming', 'cycling', 'training'])
-    .isRequired,
-  userId: PropTypes.number.isRequired,
-};
 
 export default MenuICon;

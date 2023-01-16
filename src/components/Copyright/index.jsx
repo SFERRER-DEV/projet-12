@@ -21,7 +21,6 @@ const Copy = styled.p`
   & > span {
     font-size: 1.25em;
   }
-  border: 3px red solid;
 `;
 
 /**
