@@ -29,6 +29,22 @@ const ErrorWrapper = styled.div`
   & button:hover {
     color: ${colors.primary};
   }
+  & button {
+    background-color: ${colors.tertiary};
+    color: ${colors.secondary};
+    border: none;
+    border-radius: 0.25em;
+    height: 2em;
+    font-size: 0.75em;
+    font-weight: 500;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    margin: 1em 0;
+    cursor: pointer;
+  }
+  & button:hover {
+    color: ${colors.primary};
+  }
 `;
 
 /**

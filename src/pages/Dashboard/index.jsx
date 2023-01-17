@@ -45,6 +45,8 @@ function Dashboard(props) {
     .toLowerCase()
     .startsWith('/dashboard/home/');
 
+  console.log(`${Date.now()} - State haveToMock = ${haveToMock}`);
+
   return (
     <UserProvider>
       <Container>
