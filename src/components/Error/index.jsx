@@ -9,23 +9,21 @@ const ErrorWrapper = styled.div`
   font-size: 1.5em;
   margin: 2em 0;
   padding: 1em;
-  & p {
-    & > span {
-      color: ${colors.tertiary};
-      font-weight: 500;
-    }
+  & > span {
+    color: ${colors.tertiary};
+    font-weight: 500;
   }
   & button {
+    font-size: 0.75em;
     background-color: ${colors.tertiary};
     color: ${colors.secondary};
     border: none;
     border-radius: 0.25em;
     height: 2em;
-    font-size: 0.75em;
-    font-weight: 500;
     padding-left: 0.75em;
     padding-right: 0.75em;
-    margin: 1em 0;
+    margin: 1em;
+    width: 100%;
     cursor: pointer;
   }
   & button:hover {

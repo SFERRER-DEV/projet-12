@@ -5,16 +5,25 @@ import styled from 'styled-components';
 import userFactory from '../../factories/userFactory';
 import Loader from '../Loader';
 import Error from '../Error';
+import Hello from '../../components/Hello';
+import Activity from '../../components/Activity';
+import Sessions from '../../components/Sessions';
+import Performance from '../../components/Performance';
+import Score from '../../components/Score';
+import KeyData from '../KeyData';
+
 /** @typedef {import('../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
 /** @typedef {import('../../utils/context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
 /** @typedef {import('../../utils/context/typedef').UserContextMock} UserContextMock Raccourci pour importer des types des propriétés JSON */
 
-/** @type {Object} Le conteneur du composant est une balise `<section>` avec un grille flexible */
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/** @type {Object} Cette balise `<div>` est la 2eme grille imbriquée,  son parent est la balise `<main>` qui  luis sert de balise anonyme pour être contnenue dans la 1ere grille qui est #root */
+const Grid = styled.div`
+  border: 3px black dotted;
+`;
+
+/** @type {Object} Cette balise `<div>` contient les données clés Calories, protéines, glucides, lipides dans la dernière colonne de la grille et s'étend sur 4 lignes */
+const DataKeys = styled.div`
+  border: 1px black green;
 `;
 
 /**
@@ -41,7 +50,7 @@ function Profile(props) {
     /** @type {seconds} */
     seconds,
     setSeconds,
-  ] = useState(1); // 1s
+  ] = useState(0); // 1s
 
   /** @type {Object} Un utilisateur à fabriquer */
   let user;
@@ -56,9 +65,6 @@ function Profile(props) {
     }
   }
 
-  const congratulations =
-    'Félicitation ! Vous avez explosé vos objectifs hier 👏';
-
   return isLoading || seconds > 0 ? (
     <Loader seconds={seconds} setSeconds={setSeconds} />
   ) : error ? (
@@ -70,15 +76,19 @@ function Profile(props) {
       setHaveToMock={setHaveToMock}
     />
   ) : (
-    <Container className="dashboard__profile">
-      <div>
-        <h1>Profil utilisateur</h1>
-        <h2>
-          Bonjour <span>{user?.firstName}</span>
-        </h2>
-        <p>{congratulations}</p>
-      </div>
-    </Container>
+    <Grid className="dashboard__profile">
+      <Hello firstname={user?.firstName} />
+      <Activity />
+      <Sessions />
+      <Performance />
+      <Score />
+      <DataKeys className="dashboard__profile__datakeys">
+        <KeyData key="calorie" data="calorie" />
+        <KeyData key="protein" data="protein" />
+        <KeyData key="carbohydrate" data="carbohydrate" />
+        <KeyData key="lipid" data="lipid" />
+      </DataKeys>
+    </Grid>
   );
 }
 
