@@ -91,21 +91,4 @@ body {
   justify-content: space-around;
   grid-column: 4 / span 1;
   grid-row: 2 / span 4;
-  border: 3px green dotted;
-}
-
-.dashboard__profile__calorie {
-  background-color: rgb(255, 230, 230);
-}
-
-.dashboard__profile__protein {
-  background-color: rgb(219, 236, 255);
-}
-
-.dashboard__profile__carbohydrate {
-  background-color: rgb(255, 245, 204);
-}
-
-.dashboard__profile__lipid {
-  background-color: rgb(255, 230, 249);
 }

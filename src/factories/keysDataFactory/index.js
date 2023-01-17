@@ -1,4 +1,4 @@
-import KeyData, { Keys } from '../../models/KeyData';
+import KeyData from '../../models/KeyData';
 /** @typedef {import('../../utils/context/typedef').KeyDataJSON} KeyDataJSON Raccourci pour importer des types des propriétés JSON */
 
 /**

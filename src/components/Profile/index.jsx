@@ -83,10 +83,16 @@ function Profile(props) {
       <Performance />
       <Score />
       <DataKeys className="dashboard__profile__datakeys">
-        <KeyData key="calorie" data="calorie" />
-        <KeyData key="protein" data="protein" />
-        <KeyData key="carbohydrate" data="carbohydrate" />
-        <KeyData key="lipid" data="lipid" />
+        {user.keysData.map(({ key, designation, data, unit, color }, index) => (
+          <KeyData
+            key={`${key}-${1000 + index}`}
+            id={key}
+            designation={designation}
+            data={data}
+            unit={unit}
+            color={color}
+          />
+        ))}
       </DataKeys>
     </Grid>
   );

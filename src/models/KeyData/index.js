@@ -3,11 +3,35 @@
  * @readonly
  * @enum {string}
  */
-export const Keys = {
+const Keys = {
   calorieCount: 'Calories',
   proteinCount: 'Protéïnes',
   carbohydrateCount: 'Glucides',
   lipidCount: 'Lipides',
+};
+
+/**
+ * @description Enumération des couleurs des données clefs
+ * @readonly
+ * @enum {string}
+ */
+const Colors = {
+  calorieCount: '#FFE6E6',
+  proteinCount: '#CEE5FF',
+  carbohydrateCount: '#FFF5CC',
+  lipidCount: '#FFE6F9',
+};
+
+/**
+ * @description Enumération des unités des données clefs
+ * @readonly
+ * @enum {string}
+ */
+const Units = {
+  calorieCount: 'kCal',
+  proteinCount: 'g',
+  carbohydrateCount: 'g',
+  lipidCount: 'g',
 };
 
 class KeyData {
@@ -34,9 +58,9 @@ class KeyData {
 
   /**
    * @readonly
-   * @property {string} name Nom de cette donnée clef
+   * @property {string} designation Nom de cette donnée clef en français
    */
-  get name() {
+  get designation() {
     return Keys[this._key];
   }
 
@@ -48,6 +72,22 @@ class KeyData {
   }
   set data(value) {
     this._data = value;
+  }
+
+  /**
+   * @readonly
+   * @property {string} unit L'unité dans laquelle est exprimée la valeur (g, Cal, etc ..)
+   */
+  get unit() {
+    return Units[this._key];
+  }
+
+  /**
+   * @readonly
+   * @property {string} color Chaque donnée clef a une couleur
+   */
+  get color() {
+    return Colors[this._key];
   }
 }
 
