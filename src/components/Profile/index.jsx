@@ -17,9 +17,7 @@ import KeyData from '../KeyData';
 /** @typedef {import('../../utils/context/typedef').UserContextMock} UserContextMock Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Cette balise `<div>` est la 2eme grille imbriquée,  son parent est la balise `<main>` qui  luis sert de balise anonyme pour être contnenue dans la 1ere grille qui est #root */
-const Grid = styled.div`
-  border: 3px black dotted;
-`;
+const Grid = styled.div``;
 
 /** @type {Object} Cette balise `<div>` contient les données clés Calories, protéines, glucides, lipides dans la dernière colonne de la grille et s'étend sur 4 lignes */
 const DataKeys = styled.div`

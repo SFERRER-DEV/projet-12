@@ -40,7 +40,6 @@ body {
 .dashboard__profile__hello {
   grid-column: 1 / span 4;
   grid-row: 1 / span 1;
-  border: 1px blue dotted;
 }
 
 .dashboard__profile__activity {
