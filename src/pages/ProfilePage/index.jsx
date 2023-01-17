@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { UserProvider } from '../../utils/context/api-http';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { UserProvider } from '../../utils/context/api-http';
-import { UserProviderMock } from '../../utils/context/api-http-mock';
 import Profile from '../../components/Profile';
+/** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Le contenu principal de la page est dans une balise `<main>` à positionner dans une Grid */
 const Container = styled.main`
@@ -21,10 +21,12 @@ const Container = styled.main`
  * @returns {JSX.Element} Page profil
  */
 function ProfilePage() {
-  /** @typedef{boolean} haveToMock Etat du mock des données descend par les props des composants enfants */
-  /** @typedef{Function} setHaveToMock Fonction de mise à jour pour remonter l'état du mock des données depuis le composant enfant Error */
-  /** @type {[haveToMock, setHaveToMock]} */
-  const [haveToMock, setHaveToMock] = useState(false);
+  const haveToMock = parseInt(window.localStorage.getItem('haveToMock')) || 0;
+
+  console.log(`${Date.now()} - ProfilePage: haveToMock ? ${haveToMock}`);
+
+  /**  */
+  const [reload, setReload] = useState(false);
 
   /**
    * @typedef {Object} params
@@ -41,22 +43,12 @@ function ProfilePage() {
     window.localStorage.setItem('userId', id);
   }
 
-  console.log(`${Date.now()} - State haveToMock = ${haveToMock}`);
-
   return (
-    <Container className="profilpage">
-      {haveToMock ? (
-        /** Utiliser le provider pour se connecter au contexte des données mockées dans le fichier local */
-        <UserProviderMock>
-          <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-        </UserProviderMock>
-      ) : (
-        /** Utiliser le provider pour se connecter au contexte des données cherchées sur le backend */
-        <UserProvider>
-          <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-        </UserProvider>
-      )}
-    </Container>
+    <UserProvider>
+      <Container className="dashboard">
+        <Profile reload={reload} setReload={setReload} />
+      </Container>
+    </UserProvider>
   );
 }
 

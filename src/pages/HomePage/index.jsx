@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Route,
   Switch,
   useRouteMatch,
 } from 'react-router-dom';
-
 import styled from 'styled-components';
+import { ButtonWrapper } from '../../utils/style/Atoms';
 import Demo from '../../components/Demo';
 
 /** @type {Object} Le contenu principal de la page est dans une balise `<main>` à positionner dans une Grid */
@@ -25,6 +25,14 @@ const Container = styled.main`
  */
 function HompePage() {
   let { path } = useRouteMatch();
+  /** @type {boolean} Est-ce que les données doivent être mockées ? */
+  const haveToMock = parseInt(window.localStorage.getItem('haveToMock')) || 0;
+  /**  @typedef {boolean} reload Un State à basculer pour re render le composant */
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    console.log(`Reload ${reload}`);
+  }, [reload]);
 
   return (
     <Container className="homepage">
@@ -41,9 +49,31 @@ function HompePage() {
           <Demo menu="Cyclisme" />
         </Route>
         <Route exact path={`${path}/training`}>
-          <Demo menu="Entraînement" />
+          {/** <Demo menu="Entraînement" /> */}
+          <Demo />
         </Route>
       </Switch>
+      {/** Le bouton pour supprimer le mock des données */}
+      {haveToMock === 1 ? (
+        <div>
+          <ButtonWrapper>
+            <h2>Les données sont mockées</h2>
+            <button
+              onClick={() => {
+                // Permet de tenter d'utiliser le backend à nouveau
+                window.localStorage.removeItem('haveToMock');
+                setReload(true);
+              }}
+            >
+              Cliquer pour enlever le mock
+            </button>
+          </ButtonWrapper>
+        </div>
+      ) : (
+        <ButtonWrapper>
+          <h2>Les données ne sont pas mockées</h2>
+        </ButtonWrapper>
+      )}
     </Container>
   );
 }

@@ -1,20 +1,21 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../utils/context/api-http';
-import { UserContextMock } from '../../utils/context/api-http-mock';
 import styled from 'styled-components';
-import userFactory from '../../factories/userFactory';
+// Composants enfants
 import Loader from '../Loader';
 import Error from '../Error';
-import Hello from '../../components/Hello';
-import Activity from '../../components/Activity';
-import Sessions from '../../components/Sessions';
-import Performance from '../../components/Performance';
-import Score from '../../components/Score';
+import Hello from '../Hello';
+import Activity from '../Activity';
+import Sessions from '../Sessions';
+import Performance from '../Performance';
+import Score from '../Score';
 import KeyData from '../KeyData';
-
-/** @typedef {import('../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
-/** @typedef {import('../../utils/context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
-/** @typedef {import('../../utils/context/typedef').UserContextMock} UserContextMock Raccourci pour importer des types des propriétés JSON */
+// Méthodes pour fabriquer des objets typés à afficher dans les composants
+import userFactory from '../../factories/userFactory';
+import performanceFactory from '../../factories/performanceFactory';
+import sessionFactory from '../../factories/sessionFactory';
+import activityFactory from '../../factories/activityFactory';
+/** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Cette balise `<div>` est la 2eme grille imbriquée,  son parent est la balise `<main>` qui  luis sert de balise anonyme pour être contnenue dans la 1ere grille qui est #root */
 const Grid = styled.div``;
@@ -25,34 +26,33 @@ const DataKeys = styled.div`
 `;
 
 /**
- * @description Un composant pour afficher le profile de l'utlisateur avec
- * et les graphiques des activités sportives
- * @param {Object} props
- * @param {boolean} props.haveToMock Est-ce que les données sont cherchées dans le backend ou localement ?
- * @param {Function} props.setHaveToMock Fonction de mise à jour pour remonter l'état du mock
+ * @description Un composant pour fabrique et afficher un profil utlisateur et les graphiques de ses activités sportives
+ * Ce composant se connect au contexte de données
  * @returns {React.ReactElement} Profile
  */
-function Profile(props) {
-  const { haveToMock, setHaveToMock } = props;
-
-  /** @type {UserContext | UserContextMock } */
-  const { codeStatus, data, isLoading, error, errorMessage } = useContext(
-    // Utiliser le bon contexte de données soit elles sont mockées en local, soit elles sont cherchées sur le backend
-    haveToMock ? UserContextMock : UserContext
-  );
-
-  /**
-   * @typedef {number} seconds Nombre de seconde(s) à attendre
-   */
+function Profile() {
+  /**  @typedef {number} seconds Nombre de seconde(s) à attendre */
   const [
     /** @type {seconds} */
     seconds,
     setSeconds,
   ] = useState(0); // 1s
 
+  /** @type {Context} */
+  const {
+    codeStatus,
+    data,
+    dataActivity,
+    dataSessions,
+    dataPerformance,
+    isLoading,
+    error,
+    errorMessage,
+  } = useContext(UserContext);
+
   /** @type {Object} Un utilisateur à fabriquer */
   let user;
-  // Fabriquer l'utilisateur typé quand le chargement est terminé sans erreur et à la fin du timer
+  // Fabriquer l'utilisateur typé quand le chargement est fini, sans erreur et à la fin du timer
   if (!isLoading && !error && seconds === 0) {
     // Protection
     if (Object.keys(data).length > 0) {
@@ -60,6 +60,21 @@ function Profile(props) {
       const userModel = userFactory(data);
       // Fabriquer l'utilisateur
       user = userModel.getUser();
+
+      /** @type {performanceFactory} Factory Method pour fabriquer les performances de l'utilisateur à partir de données JSON */
+      const performanceModel = performanceFactory(dataPerformance);
+      // Fabriquer les performances pour l'utilisateur
+      user.performances = performanceModel.getPerformances();
+
+      /** @type {sessionFactory} Factory Method pour fabriquer les sessions de l'utilisateur à partir de données JSON */
+      const sessionModel = sessionFactory(dataSessions);
+      user.sessions = sessionModel.getSessions();
+
+      /** @type {activityFactory} Factory Method pour fabriquer les jours d'activités de l'utlisateur à partir de données JSON*/
+      const activityModel = activityFactory(dataActivity);
+      user.activities = activityModel.getActivities();
+
+      console.log(user);
     }
   }
 
@@ -68,27 +83,27 @@ function Profile(props) {
   ) : error ? (
     <Error
       codeStatus={codeStatus}
+      isLoading={isLoading}
       error={error}
       errorMessage={errorMessage}
-      haveToMock={haveToMock}
-      setHaveToMock={setHaveToMock}
     />
   ) : (
     <Grid className="dashboard__profile">
       <Hello firstname={user?.firstName} />
-      <Activity />
-      <Sessions />
-      <Performance />
-      <Score />
+      {/** les graphiques  */}
+      <Score todayScore={user?.todayScore} />
+      <Activity activities={user.activities} />
+      <Sessions sessions={user.sessions} />
+      <Performance performances={user.performances} />
+      {/** les Cards des données clefs  */}
       <DataKeys className="dashboard__profile__datakeys">
-        {user.keysData.map(({ key, designation, data, unit, color }, index) => (
+        {user.keysData.map(({ keyName, designation, data, unit }, index) => (
           <KeyData
-            key={`${key}-${1000 + index}`}
-            id={key}
+            key={`${keyName}-${1000 + index}`}
+            id={keyName}
             designation={designation}
             data={data}
             unit={unit}
-            color={color}
           />
         ))}
       </DataKeys>

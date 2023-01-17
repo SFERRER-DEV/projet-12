@@ -1,5 +1,3 @@
-import KeyData from '../KeyData';
-
 class User {
   /**
    * @constructor Une classe pour instancier un utilisateur
@@ -7,10 +5,23 @@ class User {
    * @param {string} firstName
    * @param {string} lastName
    * @param {number} age
-   * @param {number} todayScore
-   * @param {Array.<KeyData>} [keysData] Un tableau des données clés de l'utilisateur
+   * @param {number} todayScore Score du jour de l'utilisateur
+   * @param {Array.<KeyData>} [keysData] Le tableau des données clés de l'utilisateur
+   * @param {Array.<Performance>} [performances] Le tableau des performances de l'utilisateur
+   * @param {Array.<Session>} [sessions] Le tableau des sessions de l'utilisateur
+   * @param {Array.<Activity>} [activities] Le tableau des activités de l'utilisateur
    */
-  constructor(id, firstName, lastName, age, todayScore, keysData = []) {
+  constructor(
+    id,
+    firstName,
+    lastName,
+    age,
+    todayScore,
+    keysData = [],
+    performances = [],
+    sessions = [],
+    activities = []
+  ) {
     /** @type {number} */
     this._id = id;
     /** @type {string} */
@@ -23,6 +34,12 @@ class User {
     this._todayScore = todayScore;
     /** @type {Array<KeyData>} */
     this._keysData = keysData;
+    /** @type {Array<Performance>} */
+    this._performances = performances;
+    /** @type {Array<Session>} */
+    this._sessions = sessions;
+    /** @type {Array<Activity>} */
+    this._activities = activities;
   }
 
   /**
@@ -66,7 +83,7 @@ class User {
     return this._todayScore;
   }
   set todayScore(value) {
-    this._age = value;
+    this._todayScore = value;
   }
 
   /**
@@ -77,6 +94,36 @@ class User {
   }
   set keysData(value) {
     this._keysData = value;
+  }
+
+  /**
+   * @property {Array<Performance>} Un tableau des performances
+   */
+  get performances() {
+    return this._performances;
+  }
+  set performances(value) {
+    this._performances = value;
+  }
+
+  /**
+   * @property {Array<Sessions>} Un tableau des sessions
+   */
+  get sessions() {
+    return this._sessions;
+  }
+  set sessions(value) {
+    this._sessions = value;
+  }
+
+  /**
+   * @property {Array<Activity>} Un tableau des activités
+   */
+  get activities() {
+    return this._activities;
+  }
+  set activities(value) {
+    this._activities = value;
   }
 }
 

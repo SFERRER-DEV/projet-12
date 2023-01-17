@@ -3,25 +3,33 @@ import cycling from '../../assets/cycling.svg';
 import swimming from '../../assets/swimming.svg';
 import recovery from '../../assets/recovery.svg';
 
+/**
+ * @typedef {Object} IconesList
+ * @property {string} uri Routing
+ * @property {string} iconSvg Chemin statique vers le fichier svg dans /static/media/
+ */
+/** @type {IconesList} */
 export const iconesList = [
   {
     uri: `recovery`,
     iconSvg: recovery,
-    altText: `icon recovery activity`,
   },
   {
     uri: `swimming`,
     iconSvg: swimming,
-    altText: `icon swimming activity`,
   },
   {
     uri: `cycling`,
     iconSvg: cycling,
-    altText: `icon cycling activity`,
   },
   {
     uri: `training`,
     iconSvg: training,
-    altText: `icon training activity`,
   },
+  /** Ajouter un objet à ce tableau ajoutera un nouveau menu avec une icône par défaut
+  /**
+  {
+    uri: `test`,
+  },
+ */
 ];

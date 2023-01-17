@@ -1,20 +1,21 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+/** @typedef {import('../../context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
 
 /**
- * @description Récupérer les données principales d'un utilisateur depuis le backend avec l'Api Axios
- * @param {number} id Idenfifiant d'un utilisateurs
- * @returns {states} Les données de State retournées
- * @returns {string} states.codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
- * @returns {Object} states.data Les données principales d'un utilisateur au format JSON
- * @returns {boolean} states.iLoading Les données sont-elle entrain de se charger ?
- * @returns {boolean} states.error Est-ce qu'une erreur est survenue lors du chargement ?
- * @returns {string} states.errorMessage La raison de l'exception levée
+ * @description Service pour récupérer les données mockées d'un utilisateur dans le le fichier  avec l'Api Axios
+ * @param {number} id Idenfifiant d'un utilisateur
+ * @returns {UserContext} Les données de State à retourner et leurs fonctions de mise à jour
  */
 export function useFetchUser(id) {
   /** @typedef {Object} data Les données principales d'un utilisateur au format JSON */
-  const [data, setData] = useState({});
+  const [data, setUserData] = useState({});
+  /** @typedef {Object} dataActivity Les données de l'activité quotidienne d'un utilisateur au format JSON */
+  const [dataActivity, setDataActivity] = useState({});
+  /** @typedef {Object} dataPerformances Les données des niveaux des performances d'un utilisateur au format JSON */
+  const [dataPerformance, setDataPerformance] = useState({});
+  /** @typedef {Object} dataSessions Les données quotidiennes de la durée des sessions d'un utilisateur au format JSON */
+  const [dataSessions, setDataSessions] = useState({});
   /** @typedef {boolean} isLoading Les données sont-elle entrain de se charger ? */
   const [isLoading, setLoading] = useState(true);
   /** @typedef {boolean} error  Est-ce qu'une erreur est survenue lors du chargement ? */
@@ -22,7 +23,7 @@ export function useFetchUser(id) {
   /** @typedef {string} errorMessage  La raison de l'exception levée  */
   const [errorMessage, setErrorMessage] = useState('');
   /** @typedef {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête */
-  const [codeStatus, setCodeStatus] = useState(0);
+  const [codeStatus, setCodeStatus] = useState('');
 
   useEffect(() => {
     /** @type {Object} Configuration de l'instance Axios */
@@ -31,7 +32,7 @@ export function useFetchUser(id) {
         Accept: 'application/json',
       },
       method: 'get',
-      timeout: 5000,
+      timeout: 10000,
       baseURL: process.env['REACT_APP_SERVER_URL'], // les données sont cherchées sur le backend
     };
 
@@ -43,32 +44,31 @@ export function useFetchUser(id) {
     /**
      * @description Récupérer via l'Api les principales données d'un utilisateur
      * @param {number} id L'identifiant de l'utilisateur
-     * @returns {states} Les données de State retournées
-     * @returns {string} states.codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
-     * @returns {Object} states.data Les données principales d'un utilisateur au format JSON
-     * @returns {boolean} states.iLoading Les données sont-elle entrain de se charger ?
-     * @returns {boolean} states.error Est-ce qu'une erreur est survenue lors du chargement ?
-     * @returns {string} states.errorMessage La raison de l'exception levée
+     * @param {string} [endpoint] Une requête pour obtenir des données (.env)
+     * @param {Function} [setData] Une fonction de mise à jour du State spécifique à ce endpoint
+     * @returns {void}
      */
-    async function fetchData(id) {
-      /** @type {string} Point de terminaison de l'API pour récupérer les données principales d'un utlisateur*/
-      const uri = `${process.env['REACT_APP_GET_USER']}/${id}`;
-
+    async function fetchData(id, endpoint = '', setData = setUserData) {
+      /** @type {string} Requête pour pour récupérer des données avec un des endpoints de l'API http */
+      const uri = `${process.env['REACT_APP_GET_USER']}/${id}${
+        endpoint === '' ? '' : `${endpoint}`
+      }`;
       // Nettoyer les erreurs précédentes
       setError(false);
       setErrorMessage('');
-
+      // Requêter
       await http
         .get(uri)
         .then((response) => {
-          // Si la réponse est un succès alors renvoyer la propriété data de l'objet JSON
-          // Déstructurer data.data: { id, keyData: {...}, todayScore, userInfos: {...}
+          // Si la réponse est un succès alors déstructurer les propriétés imbriquées data.data
           const {
             data: { data },
           } = response;
-          // Renseigner les données à retourner
+          // Successful responses (200 – 299)
+          setCodeStatus(response.statusText);
+          console.log(`${uri} => ${response.statusText}`);
+          // Renseigner les données dans le State grâce à la fonction spécifique passée en paramètre
           setData(data);
-          setCodeStatus(response.statusText); // Successful responses (200 – 299)
         })
         .catch((error /** est un object AxiosError */) => {
           if (error.response) {
@@ -88,28 +88,34 @@ export function useFetchUser(id) {
           // Renseigner les variables retournées
           setError(true);
           setErrorMessage(error.message);
-          setCodeStatus(error.code); // ERR_NETWORK, ERR_BAD_REQUEST
+          setCodeStatus(error.code); // ERR_NETWORK, ERR_BAD_REQUEST,
         })
         .finally(() => setLoading(false));
     }
 
-    // L'identifiant utilisateur est mémorisé localement après avoir été obtenu par le routing : /route/:id
-    if (isNaN(id)) {
-      // Nettoyer
-      window.localStorage.removeItem('userId');
-      // Avertir
-      setData(null);
-      setError(true);
-      setErrorMessage(`Erreur avec l'identifiant utilisateur`);
-      setLoading(false);
-    } else {
-      fetchData(id);
-    }
+    // Aller chercher les données principales de l'utilisateur
+    fetchData(id); // #1
+    // Obtenir les données d'activité
+    fetchData(id, process.env['REACT_APP_GET_ACTIVITY'], setDataActivity);
+    // Obtenir les données des sessions
+    fetchData(id, process.env['REACT_APP_GET_SESSIONS'], setDataSessions);
+    // Obtenir les données de performance
+    fetchData(id, process.env['REACT_APP_GET_PERFORMANCE'], setDataPerformance);
   }, [id]);
 
-  return { codeStatus, data, isLoading, error, errorMessage };
+  return {
+    id,
+    codeStatus,
+    setCodeStatus,
+    data,
+    dataActivity,
+    dataSessions,
+    dataPerformance,
+    isLoading,
+    setLoading,
+    error,
+    setError,
+    errorMessage,
+    setErrorMessage,
+  };
 }
-
-useFetchUser.propTypes = {
-  id: PropTypes.number.isRequired,
-};

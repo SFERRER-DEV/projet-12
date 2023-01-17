@@ -1,67 +1,39 @@
-/**
- * @description Enumération des noms des données clefs
- * @readonly
- * @enum {string}
- */
-const Keys = {
-  calorieCount: 'Calories',
-  proteinCount: 'Protéïnes',
-  carbohydrateCount: 'Glucides',
-  lipidCount: 'Lipides',
-};
-
-/**
- * @description Enumération des couleurs des données clefs
- * @readonly
- * @enum {string}
- */
-const Colors = {
-  calorieCount: '#FFE6E6',
-  proteinCount: '#CEE5FF',
-  carbohydrateCount: '#FFF5CC',
-  lipidCount: '#FFE6F9',
-};
-
-/**
- * @description Enumération des unités des données clefs
- * @readonly
- * @enum {string}
- */
-const Units = {
-  calorieCount: 'kCal',
-  proteinCount: 'g',
-  carbohydrateCount: 'g',
-  lipidCount: 'g',
-};
-
 class KeyData {
+  /** @type {string[][]} Tableau partagé des noms des données clefs */
+  static Keys = [
+    ['calorieCount', 'Calories'],
+    ['proteinCount', 'Protéïnes'],
+    ['carbohydrateCount', 'Glucides'],
+    ['lipidCount', 'Lipides'],
+  ];
+
+  /** @type {string[][]} Tableau partagé des unités */
+  static Units = [
+    ['calorieCount', 'kCal'],
+    ['proteinCount', 'g'],
+    ['carbohydrateCount', 'g'],
+    ['lipidCount', 'g'],
+  ];
+
   /**
    * @constructor Les données clefs des utilisateurs :
    * - Calories, protéïnes, glucides, lipides.
-   * @param {Keys} key Une donnée clef identifiée par le nom de sa propriété JSON
+   * @param {Keys} key L'identifiant de la donnée clef est son nom de propriété JSON
    * @param {number} data Valeur de la donnée
    */
   constructor(key, data) {
     /** @type {string} */
-    this._key = key;
+    this._keyName = key;
     /** @type {number} */
     this._data = data;
   }
 
   /**
    * @readonly
-   * @property {string} key identifiant clef
+   * @property {string} keyName Identifiant et nom de la donnée clef
    */
-  get key() {
-    return this._key;
-  }
-
-  /**
-   * @readonly
-   * @property {string} designation Nom de cette donnée clef en français
-   */
-  get designation() {
-    return Keys[this._key];
+  get keyName() {
+    return this._keyName;
   }
 
   /**
@@ -76,18 +48,25 @@ class KeyData {
 
   /**
    * @readonly
-   * @property {string} unit L'unité dans laquelle est exprimée la valeur (g, Cal, etc ..)
+   * @property {string} designation Appellation de cette donnée clef traduite français
    */
-  get unit() {
-    return Units[this._key];
+  get designation() {
+    /** @type {number} L'index du nom dans le tableau */
+    const row = KeyData.Keys.findIndex((arr) => arr.includes(this._keyName));
+
+    return row !== -1 ? KeyData.Keys[row][1] : this._keyName;
   }
 
   /**
    * @readonly
-   * @property {string} color Chaque donnée clef a une couleur
+   * @property {string} unit L'unité dans laquelle la valeur est exprimée (g, Cal, etc ..)
    */
-  get color() {
-    return Colors[this._key];
+  get unit() {
+    /** @type{string } Enumération des unités des données clefs */
+    /** @type {number} L'index du nom dans le tableau */
+    const row = KeyData.Units.findIndex((arr) => arr.includes(this._keyName));
+
+    return row !== -1 ? KeyData.Units[row][1] : '';
   }
 }
 

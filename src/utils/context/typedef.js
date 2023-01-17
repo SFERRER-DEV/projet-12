@@ -19,21 +19,52 @@
  * @property {KeyDataJSON} keyData Un objet JSON contenant les données clefs de l'utilisateur
  */
 /**
- * @typedef {Object} UserContext Le contexte des données cherchées sur le backend
- * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
- * @property {UserJSON} data Les données utilisateur au format JSON
- * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
- * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
- * @property {string} errorMessage La raison de l'erreur
+ * @typedef DataPerformanceJSON Un niveau de performance de l'utilisateur
+ * @property {number} kind Un numéro identifiant un libellé de performance
+ * @property {number} value Le niveau de performance
  */
 /**
- * @typedef {Object} UserContextMock Le contexte des données obtenues localement dans le fichier JSON
- * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
- * @property {UserJSON} data Les données utilisateur au format JSON
- * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
- * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
- * @property {string} errorMessage La raison de l'erreur
+ * @typedef PerformanceJSON La performance utilisateur avec ses objets imbriqués
+ * @property {number} userId L'identifiant de l'utilisateur
+ * @property {Object} kind Un object json de tous les libellés des performances numérotés
+ * @property {DataPerformanceJSON[]} data Un tableau d'objets json des niveaux des performances de l'utilisateur
  */
-
+/**
+ * @typedef DataSessionJSON Une durée de session quotidienne de l'utilisateur
+ * @property {number} day Un numéro de jour de la semaine
+ * @property {number} sessionLength Durée d'une session
+ */
+/**
+ * @typedef SessionJSON Les durées de sessions hebdomadaire d'utilisateur avec les objets imbriqués
+ * @property {number} userId L'identifiant de l'utilisateur
+ * @property {DataSessionJSON[]} sessions Un tableau d'objets json des durées quotidiennes des sessions de l'utilisateur
+ */
+/**
+ * @typedef DataActivityJSON Une activité d'un jour
+ * @property {Date} day Le jour de l'activité yyyy-mm-dd
+ * @property {number} kilogram Le poids utilisateur
+ * @property {number} calories Les calories consommées
+ */
+/**
+ * @typedef ActivityJSON Les jours des activités d'utilisateur avec les objets imbriqués
+ * @property {number} userId L'identifiant de l'utilisateur
+ * @property {DataActivityJSON[]} sessions Un tableau d'objets json des jours d'activités de l'utilisateur
+ */
+/**
+ * @typedef {Object} UserContext
+ * @property {number} id Un identifiant utilisateur demandé pour requêter les données
+ * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
+ * @property {Function} setCodeStatus Fonction de mise à jour du State
+ * @property {Object} data Les données utilisateur au format JSON
+ * @property {Object} dataActivity Les données de l'activité quotidiene au format JSON
+ * @property {Object} dataSessions Les données de la durée moyenne des des sessions au format JSON
+ * @property {Object} dataPerformance Les données des niveaux des performances au format JSON
+ * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
+ * @property {Function} setLoading Fonction de mise à jour du State
+ * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
+ * @property {Function} setError Fonction de mise à jour du State
+ * @property {string} errorMessage La raison de l'erreur
+ * @property {Function} setErrorMessage Fonction de mise à jour du State
+ */
 // Devoir exporter un objet vide ici est ennuyeux, mais requis pour par vscode transmette les types ?
 export {};

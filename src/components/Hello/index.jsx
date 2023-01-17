@@ -1,24 +1,28 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 
 /** @type {Object} Le conteneur du composant est une balise `<div>`  */
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-left: 2em;
+  justify-content: space-around;
+  & p {
+    width: 100%;
+  }
   & p:first-child {
     font-size: 2.25em;
     font-weight: 500;
     & span {
       color: ${colors.tertiary};
     }
+    margin-left 0.5em;
   }
   & p:last-child {
     font-size: 1.25em;
+    margin-left 0.975em;
   }
 `;
 

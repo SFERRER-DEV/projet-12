@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import colors from '../../utils/style/colors';
 
@@ -64,5 +65,14 @@ function Loader(props) {
     </LoaderWrapper>
   );
 }
+
+Loader.propTypes = {
+  seconds: PropTypes.number.isRequired,
+  setSeconds: PropTypes.func.isRequired
+};
+
+Loader.defaultProps = {
+  seconds: 0, // Pas délais supplémentaire
+};
 
 export default Loader;

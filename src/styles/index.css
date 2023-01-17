@@ -7,34 +7,47 @@
 }
 
 html {
-  font-size: 16px;
-  font-family: 'Roboto', sans-serif;
-  min-height: 100%;
   display: flex;
-  flex-direction: column;
+  width: 100%;
 }
 
 body {
-  flex-grow: 1;
   display: flex;
-  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
 }
 
 #root {
-  flex-grow: 1;
+  /* Grille de mise en page  */
   display: grid;
-  grid-template-columns: minmax(3.125em, 1fr) 20fr;
-  grid-template-rows: 10% 45% 45%;
+  width: 100%;
+  grid-template-columns: minmax(65px, 65px) 1fr;
+  grid-template-rows: 85px 1fr 1fr;
+  font-size: 1em;
+}
+
+/* conteneur de la page */
+.dashboard,
+.homepage,
+.demopage {
+  display: flex;
+  width: 100%;
 }
 
 /* Conteneur du profil utilisateur */
 .dashboard__profile {
-  height: 100%;
+  grid-column: 2;
+  grid-row: 2 / span 2;
   width: 100%;
-  /* Grille de mise en page */
+  height: 100%;
+  /* Grille de mise en page des graphiques */
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 250px;
+  grid-template-rows: 15% repeat(4, 1fr);
+  gap: 1em;
+  padding: 1em 2em;
 }
 
 .dashboard__profile__hello {
@@ -44,40 +57,28 @@ body {
 
 .dashboard__profile__activity {
   display: flex;
-  justify-content: center;
-  align-items: center;
   grid-column: 1 / span 3;
   grid-row: 2 / span 2;
   background-color: #f4f4f4;
-  border: 1px blue dotted;
 }
 
 .dashboard__profile__sessions {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   grid-column: 1 / span 1;
   grid-row: 4 / span 2;
   background-color: #ff0000;
-  border: 1px blue dotted;
 }
 
 .dashboard__profile__performance {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   grid-column: 2 / span 1;
   grid-row: 4 / span 2;
   background-color: #282d30;
+  font-weight: 500;
 }
 
 .dashboard__profile__score {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   grid-column: 3 / span 1;
   grid-row: 4 / span 2;
   background-color: #f4f4f4;
@@ -86,8 +87,8 @@ body {
 .dashboard__profile__datakeys {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   grid-column: 4 / span 1;
   grid-row: 2 / span 4;
 }
