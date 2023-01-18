@@ -7,7 +7,7 @@ class User {
    * @param {string} firstName
    * @param {string} lastName
    * @param {number} age
-   * @param {number} todayScore
+   * @param {number} todayScore Score du jour de l'utilisateur
    * @param {Array.<KeyData>} [keysData] Un tableau des données clés de l'utilisateur
    */
   constructor(id, firstName, lastName, age, todayScore, keysData = []) {
@@ -66,7 +66,7 @@ class User {
     return this._todayScore;
   }
   set todayScore(value) {
-    this._age = value;
+    this._todayScore = value;
   }
 
   /**

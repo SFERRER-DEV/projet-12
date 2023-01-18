@@ -1,6 +1,5 @@
 import User from '../../models/User';
 import keysDataFactory from '../keysDataFactory';
-import KeyData, { Keys } from '../../models/KeyData';
 /** @typedef {import('../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
 /** @typedef {import('../../utils/context/typedef').UserInfosJSON} UserInfosJSON Raccourci pour importer des types des propriétés JSON */
 /** @typedef {import('../../utils/context/typedef').KeyDataJSON} KeyDataJSON Raccourci pour importer des types des propriétés JSON */
@@ -13,7 +12,15 @@ import KeyData, { Keys } from '../../models/KeyData';
  * @returns {User} manufactured.getUser L'utilisateur
  */
 function userFactory(json) {
-  const { id, userInfos, todayScore, keyData } = json;
+  const { id, userInfos, keyData } = json;
+
+  /** @type {number} le backend a deux noms différents score vs todayScore pour la même propriété */
+  let score = 0;
+  if (json.hasOwnProperty('todayScore')) {
+    score = json.todayScore;
+  } else {
+    score = json.score;
+  }
 
   /**
    * Fabriquer un utilisateur et fabriquer toutes ses données clefs
@@ -26,7 +33,7 @@ function userFactory(json) {
       userInfos.firstName,
       userInfos.lastName,
       userInfos.age,
-      todayScore
+      score
     );
 
     /** @type {keysDataFactory} Factory Method qui fabrique les données clefs de l'utilisateur à partir des données JSON */

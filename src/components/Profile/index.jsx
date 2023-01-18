@@ -79,7 +79,7 @@ function Profile(props) {
       <Activity />
       <Sessions />
       <Performance />
-      <Score />
+      <Score todayScore={user?.todayScore} />
       <DataKeys className="dashboard__profile__datakeys">
         {user.keysData.map(({ key, designation, data, unit, color }, index) => (
           <KeyData
