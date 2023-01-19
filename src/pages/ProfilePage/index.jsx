@@ -21,10 +21,9 @@ const Container = styled.main`
  * @returns {JSX.Element} Page profil
  */
 function ProfilePage() {
-  /** @typedef{boolean} haveToMock Etat du mock des données descend par les props des composants enfants */
-  /** @typedef{Function} setHaveToMock Fonction de mise à jour pour remonter l'état du mock des données depuis le composant enfant Error */
-  /** @type {[haveToMock, setHaveToMock]} */
+  /** @typedef{boolean} haveToMock Etat du mock des données */
   const [haveToMock, setHaveToMock] = useState(false);
+  console.log(`${Date.now()} - ProfilePage: haveToMock ?${haveToMock}`);
 
   /**
    * @typedef {Object} params
@@ -41,22 +40,18 @@ function ProfilePage() {
     window.localStorage.setItem('userId', id);
   }
 
-  console.log(`${Date.now()} - State haveToMock = ${haveToMock}`);
-
-  return (
-    <Container className="profilpage">
-      {haveToMock ? (
-        /** Utiliser le provider pour se connecter au contexte des données mockées dans le fichier local */
-        <UserProviderMock>
-          <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-        </UserProviderMock>
-      ) : (
-        /** Utiliser le provider pour se connecter au contexte des données cherchées sur le backend */
-        <UserProvider>
-          <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-        </UserProvider>
-      )}
-    </Container>
+  return haveToMock ? (
+    <UserProviderMock haveToMock={haveToMock}>
+      <Container className="profilpage">
+        <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+      </Container>
+    </UserProviderMock>
+  ) : (
+    <UserProvider haveToMock={haveToMock}>
+      <Container className="profilpage">
+        <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+      </Container>
+    </UserProvider>
   );
 }
 

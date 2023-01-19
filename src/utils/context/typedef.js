@@ -19,21 +19,31 @@
  * @property {KeyDataJSON} keyData Un objet JSON contenant les données clefs de l'utilisateur
  */
 /**
- * @typedef {Object} UserContext Le contexte des données cherchées sur le backend
- * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
- * @property {UserJSON} data Les données utilisateur au format JSON
- * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
- * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
- * @property {string} errorMessage La raison de l'erreur
+ * @typedef DataPerformanceJSON Un niveau d'une performance
+ * @property {number} userId L'identifiant de l'utilisateur
+ * @property {string} kind Un type de performance
  */
 /**
- * @typedef {Object} UserContextMock Le contexte des données obtenues localement dans le fichier JSON
- * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
- * @property {UserJSON} data Les données utilisateur au format JSON
- * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
- * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
- * @property {string} errorMessage La raison de l'erreur
+ * @typedef PerformanceJSON La performance avec ses objets imbriqués
+ * @property {number} userId L'identifiant de l'utilisateur
+ * @property {Object} kind Tous les types de performance traqués pour l'utisateur
+ * @property {DataPerformanceJSON[]} data Les niveaux des performances de l'utilisateur
  */
-
+/**
+ * @typedef {Object} UserContext
+ * @property {number} id Un identifiant utilisateur demandé pour requêter les données
+ * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
+ * @property {Function} setCodeStatus Fonction de mise à jour du State
+ * @property {Object} data Les données utilisateur au format JSON
+ * @property {Object} dataActivity Les données de l'activité quotidiene au format JSON
+ * @property {Object} dataSessions Les données de la durée moyenne des des sessions au format JSON
+ * @property {Object} dataPerformance Les données des niveaux des performances au format JSON
+ * @property {boolean} isLoading Les données sont-elle entrain de se charger ?
+ * @property {Function} setLoading Fonction de mise à jour du State
+ * @property {boolean} error Est-ce qu'une erreur est survenue lors du chargement ?
+ * @property {Function} setError Fonction de mise à jour du State
+ * @property {string} errorMessage La raison de l'erreur
+ * @property {Function} setErrorMessage Fonction de mise à jour du State
+ */
 // Devoir exporter un objet vide ici est ennuyeux, mais requis pour par vscode transmette les types ?
 export {};
