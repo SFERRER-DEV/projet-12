@@ -48,7 +48,7 @@ function Profile(props) {
     /** @type {seconds} */
     seconds,
     setSeconds,
-  ] = useState(0); // 1s
+  ] = useState(3); // 1s
 
   /** @type {Object} Un utilisateur à fabriquer */
   let user;
@@ -75,10 +75,8 @@ function Profile(props) {
     />
   ) : (
     <Grid className="dashboard__profile">
+      {/** Les données passées aux props de ces composants ci-dessous proviennent de la connectiona au contexte */}
       <Hello firstname={user?.firstName} />
-      <Activity />
-      <Sessions />
-      <Performance />
       <Score todayScore={user?.todayScore} />
       <DataKeys className="dashboard__profile__datakeys">
         {user.keysData.map(({ key, designation, data, unit, color }, index) => (
@@ -92,6 +90,10 @@ function Profile(props) {
           />
         ))}
       </DataKeys>
+      {/** Ces composants ci-dessous utilisent eux-mêmes un service API http avec leurs requêtes pour obtenir leurs données  */}
+      <Activity haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+      <Sessions haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+      <Performance haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
     </Grid>
   );
 }

@@ -21,8 +21,8 @@ const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 5em;
-  width: 5em;
+  height: 4em;
+  width: 4em;
   border-radius: 0.25em;
   background-color: ${({ color }) => color /** la couleur dépend de l'icône */};
 `;
@@ -42,7 +42,7 @@ const Designation = styled.div`
   margin-left: 1em;
   & > p {
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.25em;
   }
   & > h3 {
     color: ${colors.primary}
