@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
+import { UserProvider } from '../../utils/context/api-http';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { UserProvider } from '../../utils/context/api-http';
-import { UserProviderMock } from '../../utils/context/api-http-mock';
 import Profile from '../../components/Profile';
+/** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Le contenu principal de la page est dans une balise `<main>` à positionner dans une Grid */
 const Container = styled.main`
@@ -21,9 +22,12 @@ const Container = styled.main`
  * @returns {JSX.Element} Page profil
  */
 function ProfilePage() {
-  /** @typedef{boolean} haveToMock Etat du mock des données */
-  const [haveToMock, setHaveToMock] = useState(false);
-  console.log(`${Date.now()} - ProfilePage: haveToMock ?${haveToMock}`);
+  const haveToMock = parseInt(window.localStorage.getItem('haveToMock')) || 0;
+
+  console.log(`${Date.now()} - ProfilePage: haveToMock ? ${haveToMock}`);
+
+  /**  */
+  const [reload, setReload] = useState(false);
 
   /**
    * @typedef {Object} params
@@ -40,16 +44,10 @@ function ProfilePage() {
     window.localStorage.setItem('userId', id);
   }
 
-  return haveToMock ? (
-    <UserProviderMock haveToMock={haveToMock}>
+  return (
+    <UserProvider>
       <Container className="profilpage">
-        <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-      </Container>
-    </UserProviderMock>
-  ) : (
-    <UserProvider haveToMock={haveToMock}>
-      <Container className="profilpage">
-        <Profile haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+        <Profile reload={reload} setReload={setReload} />
       </Container>
     </UserProvider>
   );

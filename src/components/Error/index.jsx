@@ -1,66 +1,56 @@
-import React from 'react';
-import styled from 'styled-components';
-import colors from '../../utils/style/colors';
-
-/** @type {Object} Un conteneur pour afficher et centrer l'animation d'attente dans une balise `<div>` */
-const ErrorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 1.5em;
-  margin: 2em 0;
-  padding: 1em;
-  & > span {
-    color: ${colors.tertiary};
-    font-weight: 500;
-  }
-  & button {
-    font-size: 0.75em;
-    background-color: ${colors.tertiary};
-    color: ${colors.secondary};
-    border: none;
-    border-radius: 0.25em;
-    height: 2em;
-    padding-left: 0.75em;
-    padding-right: 0.75em;
-    margin: 1em;
-    width: 100%;
-    cursor: pointer;
-  }
-  & button:hover {
-    color: ${colors.primary};
-  }
-`;
+import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { ButtonWrapper } from '../../utils/style/Atoms';
 
 /**
  * Un composant pour afficher un message d'erreur et traiter le code Axios `Network Error `pour mocker les données
- * @param {Object} props
+ * @param {Object} props Les States passés par le composant Profile
  * @param {string} props.codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
+ *  @param {boolean} props.isLoading Les données sont-elle entrain de se charger ?
  * @param {boolean} props.error Est-ce qu'une erreur est survenue lors du chargement ?
  * @param {string} props.errorMessage La raison de l'erreur
- * @param {boolean} props.haveToMock Est-ce que les données sont cherchées dans le backend ou localement ?
- * @param {Function} props.setHaveToMock Fonction de mise à jour pour remonter l'état du mock
- *
  * @returns {React.ReactElement} Error
  */
 function Error(props) {
-  const { codeStatus, error, errorMessage, setHaveToMock } = props;
+  const haveToMock = parseInt(window.localStorage.getItem('haveToMock')) || 0;
 
-  // Si le backend n'est pas disponible alors les données doivent être obtenues en local
+  /**  @typedef {boolean} reload Un State à basculer pour re render le composant */
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    console.log(`Reload ${reload}`);
+  }, [reload]);
+
+  const { codeStatus, isLoading, error, errorMessage } = props;
+
   if (error && codeStatus === 'ERR_NETWORK') {
     console.log(`${Date.now()} - ${codeStatus}`);
   }
 
   return (
     <div>
-      <ErrorWrapper>
+      <ButtonWrapper>
         <h3>Oups il y a eu un problème</h3>
         <p>{errorMessage}</p>
-        {error && codeStatus === 'ERR_NETWORK' ? (
-          <button onClick={() => setHaveToMock(true)}>
+        {!isLoading &&
+        error &&
+        codeStatus === 'ERR_NETWORK' &&
+        haveToMock === 0 &&
+        reload === false ? (
+          // Le backend n'est pas disponible
+          <button
+            onClick={() => {
+              // Mémoriser localement qu'il faut mocker les données
+              window.localStorage.setItem('haveToMock', 1);
+              setReload(true);
+            }}
+          >
             Cliquer pour utiliser un mock des données
           </button>
+        ) : reload === true ? (
+          <Redirect push to={`/dashboard/home/`} />
         ) : null}
-      </ErrorWrapper>
+      </ButtonWrapper>
     </div>
   );
 }

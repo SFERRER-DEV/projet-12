@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import { UserContext } from '../../utils/context/api-http';
-import { UserContextMock } from '../../utils/context/api-http-mock';
 import styled from 'styled-components';
 import userFactory from '../../factories/userFactory';
 import Loader from '../Loader';
@@ -11,10 +11,7 @@ import Sessions from '../../components/Sessions';
 import Performance from '../../components/Performance';
 import Score from '../../components/Score';
 import KeyData from '../KeyData';
-
-/** @typedef {import('../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
-/** @typedef {import('../../utils/context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
-/** @typedef {import('../../utils/context/typedef').UserContextMock} UserContextMock Raccourci pour importer des types des propriétés JSON */
+/** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Cette balise `<div>` est la 2eme grille imbriquée,  son parent est la balise `<main>` qui  luis sert de balise anonyme pour être contnenue dans la 1ere grille qui est #root */
 const Grid = styled.div``;
@@ -25,30 +22,36 @@ const DataKeys = styled.div`
 `;
 
 /**
- * @description Un composant pour afficher le profile de l'utlisateur avec
- * et les graphiques des activités sportives
+ * @description Un composant pour afficher le profil de l'utlisateur et les graphiques des activités sportives
  * @param {Object} props
  * @param {boolean} props.haveToMock Est-ce que les données sont cherchées dans le backend ou localement ?
  * @param {Function} props.setHaveToMock Fonction de mise à jour pour remonter l'état du mock
  * @returns {React.ReactElement} Profile
  */
 function Profile(props) {
-  const { haveToMock, setHaveToMock } = props;
-
-  /** @type {UserContext | UserContextMock } */
-  const { codeStatus, data, isLoading, error, errorMessage } = useContext(
-    // Utiliser le bon contexte de données soit elles sont mockées en local, soit elles sont cherchées sur le backend
-    haveToMock ? UserContextMock : UserContext
-  );
-
-  /**
-   * @typedef {number} seconds Nombre de seconde(s) à attendre
-   */
+  /**  @typedef {number} seconds Nombre de seconde(s) à attendre */
   const [
     /** @type {seconds} */
     seconds,
     setSeconds,
   ] = useState(3); // 1s
+
+  /** @type {Context} */
+  const {
+    id,
+    codeStatus,
+    setCodeStatus,
+    data,
+    dataActivity,
+    dataSessions,
+    dataPerformance,
+    isLoading,
+    setLoading,
+    error,
+    setError,
+    errorMessage,
+    setErrorMessage,
+  } = useContext(UserContext);
 
   /** @type {Object} Un utilisateur à fabriquer */
   let user;
@@ -68,18 +71,17 @@ function Profile(props) {
   ) : error ? (
     <Error
       codeStatus={codeStatus}
+      isLoading={isLoading}
       error={error}
       errorMessage={errorMessage}
-      haveToMock={haveToMock}
-      setHaveToMock={setHaveToMock}
     />
   ) : (
     <Grid className="dashboard__profile">
-      {/** Les données passées aux props de ces composants ci-dessous proviennent de la connectiona au contexte */}
+      {/** Les données passées aux props de ces composants ci-dessous proviennent de la connection au contexte */}
       <Hello firstname={user?.firstName} />
       <Score todayScore={user?.todayScore} />
       <DataKeys className="dashboard__profile__datakeys">
-        {user.keysData.map(({ key, designation, data, unit, color }, index) => (
+        {/** user.keysData.map(({ key, designation, data, unit, color }, index) => (
           <KeyData
             key={`${key}-${1000 + index}`}
             id={key}
@@ -88,12 +90,11 @@ function Profile(props) {
             unit={unit}
             color={color}
           />
-        ))}
+        )) */}
       </DataKeys>
-      {/** Ces composants ci-dessous utilisent eux-mêmes un service API http avec leurs requêtes pour obtenir leurs données  */}
-      <Activity haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-      <Sessions haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
-      <Performance haveToMock={haveToMock} setHaveToMock={setHaveToMock} />
+      <Activity />
+      <Sessions />
+      <Performance />
     </Grid>
   );
 }

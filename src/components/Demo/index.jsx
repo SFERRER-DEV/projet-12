@@ -1,13 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../utils/context/api-http';
-import { UserContextMock } from '../../utils/context/api-http-mock';
+import React from 'react';
 import styled from 'styled-components';
-import userFactory from '../../factories/userFactory';
-import Loader from '../Loader';
-import Error from '../Error';
-/** @typedef {import('../../utils/context/typedef').UserJSON} UserJSON Raccourci pour importer des types des propriétés JSON */
-/** @typedef {import('../../utils/context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
-/** @typedef {import('../../utils/context/typedef').UserContextMock} UserContextMock Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Le conteneur du composant est une balise `<section>` */
 const Container = styled.div`
