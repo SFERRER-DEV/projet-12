@@ -19,15 +19,15 @@
  * @property {KeyDataJSON} keyData Un objet JSON contenant les données clefs de l'utilisateur
  */
 /**
- * @typedef DataPerformanceJSON Un niveau d'une performance
- * @property {number} userId L'identifiant de l'utilisateur
- * @property {string} kind Un type de performance
+ * @typedef DataPerformanceJSON Un niveau de performance de l'utilisateur
+ * @property {number} kind Un numéro identifiant un libellé de performance
+ * @property {number} value Le niveau de performance
  */
 /**
- * @typedef PerformanceJSON La performance avec ses objets imbriqués
+ * @typedef PerformanceJSON La performance utilisateur avec ses objets imbriqués
  * @property {number} userId L'identifiant de l'utilisateur
- * @property {Object} kind Tous les types de performance traqués pour l'utisateur
- * @property {DataPerformanceJSON[]} data Les niveaux des performances de l'utilisateur
+ * @property {Object} kind Un object json de tous les libellés des performances numérotés
+ * @property {DataPerformanceJSON[]} data Un tableau d'objets json des niveaux des performances de l'utilisateur
  */
 /**
  * @typedef {Object} UserContext

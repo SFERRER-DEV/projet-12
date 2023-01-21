@@ -1,5 +1,3 @@
-import KeyData from '../KeyData';
-
 class User {
   /**
    * @constructor Une classe pour instancier un utilisateur
@@ -8,9 +6,18 @@ class User {
    * @param {string} lastName
    * @param {number} age
    * @param {number} todayScore Score du jour de l'utilisateur
-   * @param {Array.<KeyData>} [keysData] Un tableau des données clés de l'utilisateur
+   * @param {Array.<KeyData>} [keysData] Le tableau des données clés de l'utilisateur
+   * @param {Array.<Performance>} [performances] Le tableau des performances de l'utilisateur
    */
-  constructor(id, firstName, lastName, age, todayScore, keysData = []) {
+  constructor(
+    id,
+    firstName,
+    lastName,
+    age,
+    todayScore,
+    keysData = [],
+    performances = []
+  ) {
     /** @type {number} */
     this._id = id;
     /** @type {string} */
@@ -23,6 +30,8 @@ class User {
     this._todayScore = todayScore;
     /** @type {Array<KeyData>} */
     this._keysData = keysData;
+    /** @type {Array<Performance>} */
+    this._performances = performances;
   }
 
   /**
@@ -77,6 +86,16 @@ class User {
   }
   set keysData(value) {
     this._keysData = value;
+  }
+
+  /**
+   * @property {Array<Performance>} Un tableau dss performances nommées
+   */
+  get performances() {
+    return this._performances;
+  }
+  set performances(value) {
+    this._performances = value;
   }
 }
 
