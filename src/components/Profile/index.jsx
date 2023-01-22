@@ -1,16 +1,20 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../utils/context/api-http';
 import styled from 'styled-components';
-import userFactory from '../../factories/userFactory';
-import performanceFactory from '../../factories/performanceFactory';
+// Les composants enfants
 import Loader from '../Loader';
 import Error from '../Error';
-import Hello from '../../components/Hello';
-import Activity from '../../components/Activity';
-import Sessions from '../../components/Sessions';
-import Performance from '../../components/Performance';
-import Score from '../../components/Score';
+import Hello from '../Hello';
+import Activity from '../Activity';
+import Sessions from '../Sessions';
+import Performance from '../Performance';
+import Score from '../Score';
 import KeyData from '../KeyData';
+// Les usines pour fabriquer les objets typés à afficher dans leur composant
+import userFactory from '../../factories/userFactory';
+import performanceFactory from '../../factories/performanceFactory';
+import sessionFactory from '../../factories/sessionFactory';
+
 /** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Cette balise `<div>` est la 2eme grille imbriquée,  son parent est la balise `<main>` qui  luis sert de balise anonyme pour être contnenue dans la 1ere grille qui est #root */
@@ -69,8 +73,12 @@ function Profile(props) {
       // Fabriquer les performances pour l'utilisateur
       user.performances = performanceModel.getPerformances();
 
+      /** @type {sessionFactory} Factory Method pour fabriquer les sessions de l'utilisateur à partir de données JSON */
+      const sessionModel = sessionFactory(dataSessions);
+      user.sessions = sessionModel.ge
+
       console.log(user);
-      console.table(user);
+      //console.table(user);
     }
   }
 
@@ -85,7 +93,6 @@ function Profile(props) {
     />
   ) : (
     <Grid className="dashboard__profile">
-      {/** Les données passées aux props de ces composants ci-dessous proviennent de la connection au contexte */}
       <Hello firstname={user?.firstName} />
       <Score todayScore={user?.todayScore} />
       <DataKeys className="dashboard__profile__datakeys">
@@ -101,7 +108,7 @@ function Profile(props) {
         ))}
       </DataKeys>
       <Activity />
-      <Sessions />
+      <Sessions sessions={user.sessions} />
       <Performance performances={user.performances} />
     </Grid>
   );

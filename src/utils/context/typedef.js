@@ -30,6 +30,16 @@
  * @property {DataPerformanceJSON[]} data Un tableau d'objets json des niveaux des performances de l'utilisateur
  */
 /**
+ * @typedef DataSessionJSON Une durée de session quotidienne de l'utilisateur
+ * @property {number} day Un numéro de jour de la semaine
+ * @property {number} sessionLength Durée d'une session
+ */
+/**
+ * @typedef SessionJSON Les durées de sessions hebdomadaire d'utilisateur avec les objets imbriqués
+ * @property {number} userId L'identifiant de l'utilisateur
+ * @property {DataSessionJSON[]} data Un tableau d'objets json des durées quotidiennes des sessions de l'utilisateur
+ */
+/**
  * @typedef {Object} UserContext
  * @property {number} id Un identifiant utilisateur demandé pour requêter les données
  * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
