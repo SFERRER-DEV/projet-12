@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../../utils/context/api-http';
 import styled from 'styled-components';
 import userFactory from '../../factories/userFactory';
+import performanceFactory from '../../factories/performanceFactory';
 import Loader from '../Loader';
 import Error from '../Error';
 import Hello from '../../components/Hello';
@@ -34,7 +34,7 @@ function Profile(props) {
     /** @type {seconds} */
     seconds,
     setSeconds,
-  ] = useState(3); // 1s
+  ] = useState(0); // 1s
 
   /** @type {Context} */
   const {
@@ -55,7 +55,7 @@ function Profile(props) {
 
   /** @type {Object} Un utilisateur à fabriquer */
   let user;
-  // Fabriquer l'utilisateur typé quand le chargement est terminé sans erreur et à la fin du timer
+  // Fabriquer l'utilisateur typé quand le chargement est fini, sans erreur et à la fin du timer
   if (!isLoading && !error && seconds === 0) {
     // Protection
     if (Object.keys(data).length > 0) {
@@ -63,6 +63,14 @@ function Profile(props) {
       const userModel = userFactory(data);
       // Fabriquer l'utilisateur
       user = userModel.getUser();
+
+      /** @type {performanceFactory} Factory Method pour fabriquer les performances de l'utilisateur à partir de données JSON */
+      const performanceModel = performanceFactory(dataPerformance);
+      // Fabriquer les performances pour l'utilisateur
+      user.performances = performanceModel.getPerformances();
+
+      console.log(user);
+      console.table(user);
     }
   }
 
@@ -81,7 +89,7 @@ function Profile(props) {
       <Hello firstname={user?.firstName} />
       <Score todayScore={user?.todayScore} />
       <DataKeys className="dashboard__profile__datakeys">
-        {/** user.keysData.map(({ key, designation, data, unit, color }, index) => (
+        {user.keysData.map(({ key, designation, data, unit, color }, index) => (
           <KeyData
             key={`${key}-${1000 + index}`}
             id={key}
@@ -90,11 +98,11 @@ function Profile(props) {
             unit={unit}
             color={color}
           />
-        )) */}
+        ))}
       </DataKeys>
       <Activity />
       <Sessions />
-      <Performance />
+      <Performance performances={user.performances} />
     </Grid>
   );
 }

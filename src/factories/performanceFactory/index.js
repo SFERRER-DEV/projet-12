@@ -3,8 +3,8 @@ import Performance from '../../models/Performance';
 /** @typedef {import('../../utils/context/typedef').DataPerformanceJSON} DataPerformanceJSON Raccourci pour importer des types des propriétés JSON */
 
 /**
- * @description Usine pour fabriquer une performance d'un utilisateur
- * ou un tableau de toutes ses performances : cardio, energy, endurance, strength, speed, itensity
+ * @description Usine pour fabriquer un tableau de toutes les performances d'un utilisateur
+ * cardio, energy, endurance, strength, speed, itensity
  * @param {PerformanceJSON} json Les données JSON des performances d'un utilisateur
  * @returns {Object} manufactured Les performances fabriquées d'un utilisateur
  * @returns {number} manufactured.userId L'identifiant utilisateur
@@ -62,7 +62,7 @@ function performanceFactory(json) {
 /**
  * @description Mettre la 1ere lettre en majuscule
  * @param {string} str Un libellé de performance
- * @returns {string} Une chaine avec la 1ere lettre en majuscule
+ * @returns {string} Une chaine en minuscule avec la 1ere lettre en majuscule
  */
 function capitalizeFirstLetter(str) {
   let ret = '';
@@ -75,8 +75,8 @@ function capitalizeFirstLetter(str) {
 }
 
 /**
- * @description Tranduire le nom des perfromances en français
- * (Les performances sont nommées en anglais dans le json)
+ * @description Tranduire le nom des performances en français
+ * (car les performances sont nommées en anglais dans le json)
  * @param {string} str Un libellé de performance en anglais
  * @param {string} str Un libellé de performance traduit en français
  */
@@ -97,8 +97,8 @@ function translate(str) {
 }
 
 /**
- * @description Obtenir tous les libellés numérotés des performances dans une collection
- * avec une mise en forme
+ * @description Obtenir tous les libellés numérotés des performances  avec une mise en forme
+ * dans une collection de type Map
  * @param {Object} kind Un objet json de tous les libellés numérotés des performances
  * @returns {Map} La collection des libellés numérotés
  */
