@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../utils/context/api-http';
 import styled from 'styled-components';
-// Les composants enfants
+// Composants enfants
 import Loader from '../Loader';
 import Error from '../Error';
 import Hello from '../Hello';
@@ -10,10 +10,11 @@ import Sessions from '../Sessions';
 import Performance from '../Performance';
 import Score from '../Score';
 import KeyData from '../KeyData';
-// Les usines pour fabriquer les objets typés à afficher dans leur composant
+// Méthodes usines pour fabriquer des objets typés à afficher dans leur composant
 import userFactory from '../../factories/userFactory';
 import performanceFactory from '../../factories/performanceFactory';
 import sessionFactory from '../../factories/sessionFactory';
+import activityFactory from '../../factories/activityFactory';
 
 /** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
@@ -77,6 +78,10 @@ function Profile(props) {
       const sessionModel = sessionFactory(dataSessions);
       user.sessions = sessionModel.getSessions();
 
+      /** @type {activityFactory} Factory Method pour fabriquer les jours d'activités de l'utlisateur à partir de données JSON*/
+      const activityModel = activityFactory(dataActivity);
+      user.activities = activityModel.getActivities();
+
       console.log(user);
     }
   }
@@ -106,7 +111,7 @@ function Profile(props) {
           />
         ))}
       </DataKeys>
-      <Activity />
+      <Activity sessions={user.activities} />
       <Sessions sessions={user.sessions} />
       <Performance performances={user.performances} />
     </Grid>
