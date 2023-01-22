@@ -75,10 +75,9 @@ function Profile(props) {
 
       /** @type {sessionFactory} Factory Method pour fabriquer les sessions de l'utilisateur à partir de données JSON */
       const sessionModel = sessionFactory(dataSessions);
-      user.sessions = sessionModel.ge
+      user.sessions = sessionModel.getSessions();
 
       console.log(user);
-      //console.table(user);
     }
   }
 
