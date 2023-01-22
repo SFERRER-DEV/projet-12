@@ -9,6 +9,7 @@ class User {
    * @param {Array.<KeyData>} [keysData] Le tableau des données clés de l'utilisateur
    * @param {Array.<Performance>} [performances] Le tableau des performances de l'utilisateur
    * @param {Array.<Session>} [sessions] Le tableau des sessions de l'utilisateur
+   * @param {Array.<Activity>} [activities] Le tableau des activités de l'utilisateur
    */
   constructor(
     id,
@@ -18,7 +19,8 @@ class User {
     todayScore,
     keysData = [],
     performances = [],
-    sessions = []
+    sessions = [],
+    activities = []
   ) {
     /** @type {number} */
     this._id = id;
@@ -36,6 +38,8 @@ class User {
     this._performances = performances;
     /** @type {Array<Session>} */
     this._sessions = sessions;
+    /** @type {Array<Activity>} */
+    this._activities = activities;
   }
 
   /**
@@ -110,6 +114,16 @@ class User {
   }
   set sessions(value) {
     this._sessions = value;
+  }
+
+  /**
+   * @property {Array<Activity>} Un tableau des activités
+   */
+  get activities() {
+    return this._activities;
+  }
+  set activities(value) {
+    this._activities = value;
   }
 }
 

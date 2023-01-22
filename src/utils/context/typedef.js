@@ -37,7 +37,18 @@
 /**
  * @typedef SessionJSON Les durées de sessions hebdomadaire d'utilisateur avec les objets imbriqués
  * @property {number} userId L'identifiant de l'utilisateur
- * @property {DataSessionJSON[]} data Un tableau d'objets json des durées quotidiennes des sessions de l'utilisateur
+ * @property {DataSessionJSON[]} sessions Un tableau d'objets json des durées quotidiennes des sessions de l'utilisateur
+ */
+/**
+ * @typedef DataActivityJSON Une activité d'un jour
+ * @property {Date} day Le jour de l'activité yyyy-mm-dd
+ * @property {number} kilogram Le poids utilisateur
+ * @property {number} calories Les calories consommées
+ */
+/**
+ * @typedef ActivityJSON Les jours des activités d'utilisateur avec les objets imbriqués
+ * @property {number} userId L'identifiant de l'utilisateur
+ * @property {DataActivityJSON[]} sessions Un tableau d'objets json des jours d'activités de l'utilisateur
  */
 /**
  * @typedef {Object} UserContext
