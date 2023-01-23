@@ -11,18 +11,6 @@ const Keys = {
 };
 
 /**
- * @description Enumération des couleurs des données clefs
- * @readonly
- * @enum {string}
- */
-const Colors = {
-  calorieCount: '#FFE6E6',
-  proteinCount: '#CEE5FF',
-  carbohydrateCount: '#FFF5CC',
-  lipidCount: '#FFE6F9',
-};
-
-/**
  * @description Enumération des unités des données clefs
  * @readonly
  * @enum {string}
@@ -80,14 +68,6 @@ class KeyData {
    */
   get unit() {
     return Units[this._key];
-  }
-
-  /**
-   * @readonly
-   * @property {string} color Chaque donnée clef a une couleur
-   */
-  get color() {
-    return Colors[this._key];
   }
 }
 

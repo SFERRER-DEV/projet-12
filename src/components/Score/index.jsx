@@ -82,9 +82,9 @@ function Score({ todayScore }) {
             nameKey="name"
             dataKey="value"
             cx="50%"
-            cy="50%"
-            innerRadius="50%"
-            outerRadius="50%"
+            cy="55%"
+            innerRadius="64%"
+            outerRadius="65%"
             fill={colors.tertiary}
             startAngle={180}
             endAngle={720}

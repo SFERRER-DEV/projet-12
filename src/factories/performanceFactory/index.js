@@ -93,7 +93,7 @@ function translate(str) {
   /** @type {number} L'index du nom en anglais dans le tableau */
   const row = fr.findIndex((arr) => arr.includes(str));
 
-  return row !== -1 ? fr[row][1] : 'inconnu';
+  return row !== -1 ? fr[row][1] : str;
 }
 
 /**
