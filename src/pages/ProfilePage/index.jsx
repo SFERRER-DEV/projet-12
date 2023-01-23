@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
 import { UserProvider } from '../../utils/context/api-http';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -46,7 +45,7 @@ function ProfilePage() {
 
   return (
     <UserProvider>
-      <Container className="profilpage">
+      <Container className="dashboard">
         <Profile reload={reload} setReload={setReload} />
       </Container>
     </UserProvider>

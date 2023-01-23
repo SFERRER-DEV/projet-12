@@ -48,7 +48,11 @@ function Activity({ sessions }) {
     // const { color } = entry;
     return (
       <span
-        style={{ color: colors.primary, fontWeight: 500, marginRight: '2em' }}
+        style={{
+          color: colors.primary,
+          fontWeight: 500,
+          marginRight: '2em',
+        }}
       >
         {value}
       </span>
@@ -84,17 +88,9 @@ function Activity({ sessions }) {
             left: -50, // Hack ?
           }}
         >
-          <CartesianGrid strokeDasharray="2 2" vertical={false} />
-          {/** Abscisse du bas : Les numéros des jours de 1 à 7 */}
-          <XAxis
-            xAxisId={0}
-            type="category"
-            dataKey="numday"
-            tickLine={false}
-          />
           {/** Abscisse du haut non visible : Utilisé pour le titre qui est dans un label */}
           <XAxis
-            xAxisId={1}
+            xAxisId={0}
             orientation="top"
             tick={false}
             tickLine={false}
@@ -102,7 +98,7 @@ function Activity({ sessions }) {
           >
             <Label
               position="insideLeft"
-              dy={-25}
+              dy={-20}
               style={{
                 fill: 'black',
                 fontSize: '1.25em',
@@ -112,6 +108,14 @@ function Activity({ sessions }) {
               Activité quotidienne
             </Label>
           </XAxis>
+          <CartesianGrid strokeDasharray="2 2" vertical={false} />
+          {/** Abscisse du bas : Les numéros des jours de 1 à 7 */}
+          <XAxis
+            xAxisId={1}
+            type="category"
+            dataKey="numday"
+            tickLine={false}
+          />
           {/** L'info-bulle sur les barres */}
           <Tooltip content={<CustomTooltip />} />
           {/** Ordonné à droite et visible : Le poids dans la barre noire  */}

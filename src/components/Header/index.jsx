@@ -12,20 +12,20 @@ const PageHeader = styled.header`
   grid-column: auto / span 2;
   display: flex;
   flex-direction: row;
-  flex-wrap: no-wrap;
+  flex-wrap: nowrap;
   align-items: center;
   background-color: ${colors.background};
+  width: 100%;
     & a.pageheader__link {
-      flex-basis: 10%;
       flex-grow: 1;
       display:flex;
       justify-content: flex-around;
       height: 100%;
     }
-    & img {
-      margin: 1em;
+    & a.pageheader__link img {
+       margin: 0 1em;
     }
-    & h1 {
+    & a.pageheader__link h1 {
       font-size: 1.5em;
       font-weight: 400;
       color: ${colors.tertiary};
@@ -47,7 +47,6 @@ const NavContainer = styled.nav`
   font-size: 1.5em;
   font-weight: 400;
   & a.pageheader__nav__link {
-    flex-basis: 8em;
     min-width: fit-content;
     line-height: 2em;
   }
