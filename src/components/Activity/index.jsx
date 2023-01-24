@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ClassActivity from '../../models/Activity';
 import {
   BarChart,
   Bar,
@@ -19,15 +21,15 @@ const Container = styled.div``;
 /**
  * Un composant pour afficher les jours d'activité
  * @param {Object} props
- * @param {Activity[]} props.sessions Un tableau des jours d'activités
+ * @param {Activity[]} props.activities Un tableau des jours d'activités
  * @returns {React.ReactElement} Un composant Activity
  */
-function Activity({ sessions }) {
+function Activity({ activities }) {
   /** @type {Objet[]} Modèle de données pour le graphique BarChart*/
   const data = [];
 
   // Préparer le tableau d'objets json correspondant au modèle de données attendu par le BarChart
-  sessions
+  activities
     .sort(function (a, b) {
       // Tri ascendant des dates d'activités
       return new Date(a.day) - new Date(b.day);
@@ -165,5 +167,9 @@ function Activity({ sessions }) {
     </Container>
   );
 }
+
+Activity.propTypes = {
+  activities: PropTypes.arrayOf(PropTypes.instanceOf(ClassActivity)).isRequired,
+};
 
 export default Activity;

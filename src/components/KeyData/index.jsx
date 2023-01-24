@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { findIcon } from './icones';
@@ -13,7 +13,6 @@ const Container = styled.div`
   justify-content: flex-start;
   background: ${colors.backsecondary};
   padding: 1.5em 1em;
-  
 `;
 
 /** @type {Object} Le conteneur du composant est une balise `<div>` */
@@ -37,7 +36,7 @@ const Icon = styled.i`
     ({ flip }) =>
       flip === true
         ? 'rotate(180deg)'
-        : 'none' /** retourner une icône (faDrumstickBite) */
+        : 'none' /** retourner l'icône faDrumstickBite (free) ~ faDrumstick (pro) */
   };
 `;
 
@@ -47,19 +46,24 @@ const Designation = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-left: 1em;
-  & > p {
-    font-weight: 700;
-    font-size: 1.25em;
-  }
   & > h3 {
     color: ${colors.primary}
     font-size: 1em;
     filter: opacity(0.5);
   }
+  & > p {
+    font-weight: 700;
+    font-size: 1.25em;
+  }
 `;
 
 /**
  * Un composant pour afficher une donnée clef de l'utisateur
+ * @param {Object} props
+ * @param {string} props.id Le nom identifiant la donnée clé (est un nom de propriété json)
+ * @param {string} props.designation Traduction en français
+ * @param {number} props.data Valeur de la donnée clef
+ * @param {string} props.unit Unité kCal, g ...
  * @returns {React.ReactElement} Un composant KeyData
  */
 function KeyData(props) {
@@ -96,8 +100,9 @@ KeyData.propTypes = {
     'carbohydrateCount',
     'lipidCount',
   ]).isRequired,
-  designation: PropTypes.string.isRequired,
   data: PropTypes.number.isRequired,
+  designation: PropTypes.string.isRequired,
+  unit: PropTypes.string,
 };
 
 export default KeyData;

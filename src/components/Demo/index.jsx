@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 /** @type {Object} Le conteneur du composant est une balise `<section>` */
@@ -12,7 +13,7 @@ const Container = styled.div`
 /**
  * @description Un composant de démo affichnt d'autres menus de démonstration sur le  tableau de bord
  * @param {Object} props
- * @param {string} props.menu Un nom de menu sélectionné à afficher dans le du tableau de bord
+ * @param {string} props.menu Un nom de menu sélectionné à afficher dans tableau de bord
  * @returns {React.ReactElement} Demo
  */
 function Demo(props) {
@@ -27,5 +28,13 @@ function Demo(props) {
     </Container>
   );
 }
+
+Demo.propTypes = {
+  menu: PropTypes.string.isRequired,
+};
+
+Demo.defaultProps = {
+  menu: 'An other menu...',
+};
 
 export default Demo;

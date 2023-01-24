@@ -1,7 +1,7 @@
 import { useParams, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import logo from '../../assets/logo.svg';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import colors from '../../utils/style/colors';
 import { StyledLink1, StyledLink2 } from '../../utils/style/Atoms';
 

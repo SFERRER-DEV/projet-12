@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import { PieChart, Pie, ResponsiveContainer } from 'recharts';
 import PropTypes from 'prop-types';
+import { PieChart, Pie, ResponsiveContainer } from 'recharts';
+import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 
 /** @type {Object} Le conteneur du composant est une balise `<div>`  */

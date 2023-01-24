@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ClassPerformance from '../../models/Performance';
 import {
   RadarChart,
   Radar,
@@ -56,5 +58,10 @@ function Performance({ performances }) {
     </Container>
   );
 }
+
+Performance.propTypes = {
+  performance: PropTypes.arrayOf(PropTypes.instanceOf(ClassPerformance))
+    .isRequired,
+};
 
 export default Performance;

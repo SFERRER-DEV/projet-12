@@ -10,12 +10,11 @@ import Sessions from '../Sessions';
 import Performance from '../Performance';
 import Score from '../Score';
 import KeyData from '../KeyData';
-// Méthodes usines pour fabriquer des objets typés à afficher dans leur composant
+// Méthodes pour fabriquer des objets typés à afficher dans les composants
 import userFactory from '../../factories/userFactory';
 import performanceFactory from '../../factories/performanceFactory';
 import sessionFactory from '../../factories/sessionFactory';
 import activityFactory from '../../factories/activityFactory';
-
 /** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
 /** @type {Object} Cette balise `<div>` est la 2eme grille imbriquée,  son parent est la balise `<main>` qui  luis sert de balise anonyme pour être contnenue dans la 1ere grille qui est #root */
@@ -27,13 +26,11 @@ const DataKeys = styled.div`
 `;
 
 /**
- * @description Un composant pour afficher le profil de l'utlisateur et les graphiques des activités sportives
- * @param {Object} props
- * @param {boolean} props.haveToMock Est-ce que les données sont cherchées dans le backend ou localement ?
- * @param {Function} props.setHaveToMock Fonction de mise à jour pour remonter l'état du mock
+ * @description Un composant pour fabrique et afficher un profil utlisateur et les graphiques de ses activités sportives
+ * Ce composant se connect au contexte de données
  * @returns {React.ReactElement} Profile
  */
-function Profile(props) {
+function Profile() {
   /**  @typedef {number} seconds Nombre de seconde(s) à attendre */
   const [
     /** @type {seconds} */
@@ -43,19 +40,14 @@ function Profile(props) {
 
   /** @type {Context} */
   const {
-    id,
     codeStatus,
-    setCodeStatus,
     data,
     dataActivity,
     dataSessions,
     dataPerformance,
     isLoading,
-    setLoading,
     error,
-    setError,
     errorMessage,
-    setErrorMessage,
   } = useContext(UserContext);
 
   /** @type {Object} Un utilisateur à fabriquer */
@@ -98,22 +90,23 @@ function Profile(props) {
   ) : (
     <Grid className="dashboard__profile">
       <Hello firstname={user?.firstName} />
+      {/** les graphiques  */}
       <Score todayScore={user?.todayScore} />
+      <Activity activities={user.activities} />
+      <Sessions sessions={user.sessions} />
+      <Performance performances={user.performances} />
+      {/** les Cards des données clefs  */}
       <DataKeys className="dashboard__profile__datakeys">
-        {user.keysData.map(({ key, designation, data, unit, color }, index) => (
+        {user.keysData.map(({ keyName, designation, data, unit }, index) => (
           <KeyData
-            key={`${key}-${1000 + index}`}
-            id={key}
+            key={`${keyName}-${1000 + index}`}
+            id={keyName}
             designation={designation}
             data={data}
             unit={unit}
-            color={color}
           />
         ))}
       </DataKeys>
-      <Activity sessions={user.activities} />
-      <Sessions sessions={user.sessions} />
-      <Performance performances={user.performances} />
     </Grid>
   );
 }

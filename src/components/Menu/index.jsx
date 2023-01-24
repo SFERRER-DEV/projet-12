@@ -1,6 +1,6 @@
 import { useParams, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 import MenuIcon from '../../components/MenuIcon';
 import { iconesList } from './menu';
@@ -24,17 +24,18 @@ const NavContainer = styled.nav`
  * @returns {React.ReactElement} Un composant Menu
  */
 function Menu(props) {
+  /** @typedef {number} defaultUserId identifiant de l'utilisateur défini par défaut (0)*/
+  const { defaultUserId } = props;
+
+  /** @type {number} L'identifiant utlisateur a été mémorisé localement (1) */
+  const userId = parseInt(window.localStorage.getItem('userId'));
+  /** @typedef {number} id identifiant utilisateur obtenu depuis le paramètre id de la route (2) */
+  const { id } = useParams();
+
   /** @type {string} uri identifiant de la route d'accès actuelle */
   const uri = useLocation().pathname;
-
-  /** @type {number} L'identifiant utlisateur a été mémorisé localement #1 */
-  const userId = parseInt(window.localStorage.getItem('userId'));
-  /** @typedef {number} id identifiant utilisateur obtenu depuis le paramètre id de la route #2 */
-  const { id } = useParams();
-  /** @type {number} uriUserId identifiant extrait depuis la chaine de caractères de la route actuelle # 3*/
+  /** @type {number} uriUserId identifiant extrait depuis la chaine de caractères de la route actuelle (3) */
   const uriUserId = parseInt(uri.split(/[//]+/).pop());
-  /** @typedef {number} defaultUserId identifiant de l'utilisateur défini par défaut #4*/
-  const { defaultUserId } = props;
 
   /** @type {number} choosenId identifiant utilisateur prévalant */
   let choosenId =
@@ -48,19 +49,16 @@ function Menu(props) {
 
   return (
     <NavContainer className="menu" aria-label="menu de navigation secondaire">
-      {iconesList.map(({ uri, iconSvg, altText }, index) => (
+      {iconesList.map((/** @type {IconesList} */ { uri, iconSvg }, index) => (
         <MenuIcon
           key={`icon-${1000 + index}`}
           urlRoute={`/dashboard/home/${choosenId}/${uri}`}
           iconSvg={iconSvg}
-          altText={altText}
         />
       ))}
     </NavContainer>
   );
 }
-
-/** urlRoute={`/dahsboard/home/${choosenId}/${uri}`} */
 
 Menu.propTypes = {
   defaultUserId: PropTypes.number,

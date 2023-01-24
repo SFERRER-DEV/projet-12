@@ -36,7 +36,7 @@ function userFactory(json) {
       score
     );
 
-    /** @type {keysDataFactory} Factory Method qui fabrique les données clefs de l'utilisateur à partir des données JSON */
+    /** @type {keysDataFactory} Factory Method */
     const keysDataModel = keysDataFactory(keyData);
     // Fabriquer les données clefs de l'utilisateur et renseigner et compléter l'utilisateur en fabrication
     user.keysData = keysDataModel.getKeysData();

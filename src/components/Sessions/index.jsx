@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ClassSession from '../../models/Session';
 import {
   AreaChart,
   XAxis,
@@ -140,5 +142,9 @@ function Sessions({ sessions }) {
     </Container>
   );
 }
+
+Sessions.propTypes = {
+  sessions: PropTypes.arrayOf(PropTypes.instanceOf(ClassSession)).isRequired,
+};
 
 export default Sessions;

@@ -19,7 +19,13 @@ const Copy = styled.p`
   min-width: 3.5em;
   user-select: none;
   & > span {
-    font-size: 1.25em;
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    font-size: 1.15em;
+    line-height: 2em;
   }
 `;
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import colors from '../../utils/style/colors';
 
 /** @type {Object} Le conteneur du composant est une balise `<div>`  */

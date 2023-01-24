@@ -49,7 +49,8 @@ function HompePage() {
           <Demo menu="Cyclisme" />
         </Route>
         <Route exact path={`${path}/training`}>
-          <Demo menu="Entraînement" />
+          {/** <Demo menu="Entraînement" /> */}
+          <Demo />
         </Route>
       </Switch>
       {/** Le bouton pour supprimer le mock des données */}
