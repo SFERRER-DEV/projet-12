@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { number } from 'prop-types';
 import { useState, useEffect } from 'react';
 /** @typedef {import('../../context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
 
@@ -71,7 +70,7 @@ export function useFetchUserMock(userId) {
           // Successful responses (200 – 299)
           setCodeStatus(response.statusText);
           console.log(`${uri} => ${response.statusText}`);
-          /** @type {Array<Array<[string, Object, Function]>>} Tableau 2d contenant le nom de toutes les rubriques json, les données json déstructurées correpondantes et les fonctions respectives de mise à jour du State  */
+          /** @type {Array<Array<[string, Object, Function]>>} Tableau  contenant le nom de toutes les rubriques json avec leurs données json déstructurées correpondantes et leurs fonctions de mise à jour du State correspondantes */
           const allData = [
             ['USER_MAIN_DATA', USER_MAIN_DATA, setUserData],
             ['USER_ACTIVITY', USER_ACTIVITY, setDataActivity],
@@ -82,6 +81,8 @@ export function useFetchUserMock(userId) {
           findAllData(userId, allData, setError, setErrorMessage);
         })
         .catch((error /** est un object AxiosError */) => {
+          // affichage de l'objet config utilisé
+          //console.log(error.config);
           if (error.response) {
             // si la réponse est en erreur
             console.log(error.response.data);
@@ -94,8 +95,6 @@ export function useFetchUserMock(userId) {
             // si une erreur est survenue lors de l'initialisation de la requête
             console.log('Error', error.message);
           }
-          // affichage de l'objet config utilisé
-          console.log(error.config);
           // Renseigner les variables de States
           setError(false);
           setErrorMessage('');
@@ -105,18 +104,8 @@ export function useFetchUserMock(userId) {
         .finally(() => setLoading(false));
     }
 
-    // Vérification pour éviter un fetchData
-    if (
-      !isNaN(userId) &&
-      (typeof userId === 'number' || userId instanceof number)
-    ) {
-      // Aller chercher toutes les données mockées d'un utilisateur
-      fetchData(userId);
-    } else {
-      setError(true);
-      setErrorMessage(`L'identifiant n'est pas valide`);
-      setLoading(false);
-    }
+    // Aller chercher toutes les données mockées d'un utilisateur
+    fetchData(userId);
   }, [userId]);
 
   return {
