@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import ProfilePage from './pages/ProfilePage';
+import ProfilePage from './pages/DashboardPage';
 import DemoPage from './pages/DemoPage';
-import Header from './components/Header';
-import Menu from './components/Menu';
 import Copyright from './components/Copyright';
 
 import './styles/index.css';
@@ -16,41 +14,43 @@ root.render(
   <React.StrictMode>
     <Router>
       <GlobalStyle />
-      <Header />
-      <Menu />
       <Copyright />
       <Switch>
-        {/** page accueil order route #1 */}
+        {/** L'accueil */}
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route exact path="/dashboard/">
+          <HomePage />
+        </Route>
+        <Route exact path="/dashboard/home/">
+          <HomePage />
+        </Route>
         <Route path="/dashboard/home/:id">
           <HomePage />
         </Route>
-        {/** page accueil ordre route #2 */}
-        <Route path="/dashboard/home/">
-          <HomePage />
+        {/** Le profil utilisateur */}
+        <Route exact path="/dashboard/profile/">
+          <ProfilePage />
         </Route>
-        {/** page profil ordre route #1 */}
         <Route path="/dashboard/profile/:id">
           <ProfilePage />
         </Route>
-        {/** page profil ordre route #2 */}
-        <Route path="/dashboard/profile/">
-          <ProfilePage />
-        </Route>
         {/** Pages de démo*/}
+        <Route exact path="/dashboard/setting/">
+          <DemoPage pageName="Réglages" />
+        </Route>
         <Route path="/dashboard/setting/:id">
           <DemoPage pageName="Réglages" />
         </Route>
-        <Route path="/dashboard/setting/">
-          <DemoPage pageName="Réglages" />
+        <Route exact path="/dashboard/community/">
+          <DemoPage pageName="Communauté" />
         </Route>
         <Route path="/dashboard/community/:id">
           <DemoPage pageName="Communauté" />
         </Route>
-        <Route path="/dashboard/community/">
-          <DemoPage pageName="Communauté" />
-        </Route>
-        <Route path="*"></Route>
       </Switch>
     </Router>
   </React.StrictMode>
 );
+//  <Route path="*">{/** Erreur */}</Route>

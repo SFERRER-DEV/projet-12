@@ -21,10 +21,8 @@ function Demo(props) {
 
   return (
     <Container>
-      <div>
-        <h2>Menu démo</h2>
-        <h3>{menu}</h3>
-      </div>
+      <h1>Menu démo</h1>
+      <h2>{menu}</h2>
     </Container>
   );
 }

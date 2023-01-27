@@ -60,7 +60,7 @@ function Performance({ performances }) {
 }
 
 Performance.propTypes = {
-  performance: PropTypes.arrayOf(PropTypes.instanceOf(ClassPerformance))
+  performances: PropTypes.arrayOf(PropTypes.instanceOf(ClassPerformance))
     .isRequired,
 };
 

@@ -4,11 +4,11 @@ import swimming from '../../assets/swimming.svg';
 import recovery from '../../assets/recovery.svg';
 
 /**
- * @typedef {Object} IconesList
+ * @typedef {Object} icones
  * @property {string} uri Routing
  * @property {string} iconSvg Chemin statique vers le fichier svg dans /static/media/
  */
-/** @type {IconesList} */
+/** @type {icones[]} */
 export const iconesList = [
   {
     uri: `recovery`,

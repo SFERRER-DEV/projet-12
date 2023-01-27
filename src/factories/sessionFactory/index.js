@@ -30,6 +30,7 @@ function sessionFactory(json) {
     /** @type {Sessions[]} Un tableau des objets fabriqués de type Session */
     let arr = [];
     if (sessions === undefined) {
+      // FIXME: getSessions(): sessions === undefined
       console.error('getSessions(): sessions === undefined');
       return []; // @TODO /!\
     }

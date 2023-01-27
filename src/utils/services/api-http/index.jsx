@@ -89,10 +89,11 @@ export function useFetchUser(id) {
           setError(true);
           setErrorMessage(error.message);
           setCodeStatus(error.code); // ERR_NETWORK, ERR_BAD_REQUEST,
+          // ? reject
         })
         .finally(() => setLoading(false));
     }
-
+    // TODO: Les 4 appels à l'api (Axios.get()) sont indépendants et ils partagent une même et unique variable d'erreur (error, isLoading, codeStatus)
     // Aller chercher les données principales de l'utilisateur
     fetchData(id); // #1
     // Obtenir les données d'activité
@@ -104,7 +105,6 @@ export function useFetchUser(id) {
   }, [id]);
 
   return {
-    id,
     codeStatus,
     setCodeStatus,
     data,

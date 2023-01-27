@@ -44,6 +44,7 @@ function performanceFactory(json) {
     /** @type {Performance[]} Un tableau des objets fabriqués de type Performance */
     let performances = [];
     if (data === undefined) {
+      // FIXME: getPerformances: data === undefined
       console.error('getPerformances: data === undefined');
       return []; // @TODO /!\
     }
