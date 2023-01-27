@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { ButtonWrapper } from '../../utils/style/Atoms';
@@ -6,7 +6,8 @@ import { ButtonWrapper } from '../../utils/style/Atoms';
 /**
  * Un composant pour afficher un message d'erreur.
  * Ce composant traite le code Axios `Network Error `pour proposer de mocker les données localement
- * @param {Object} props Les States passés par le composant Profile
+ * @param {Object} props
+ * @params {number} userId l'identifiant utilisateur
  * @param {string} props.codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
  * @param {boolean} props.isLoading Les données sont-elle entrain de se charger ?
  * @param {boolean} props.error Est-ce qu'une erreur est survenue lors du chargement ?
@@ -14,6 +15,8 @@ import { ButtonWrapper } from '../../utils/style/Atoms';
  * @returns {React.ReactElement} Error
  */
 function Error(props) {
+  const { userId, codeStatus, isLoading, error, errorMessage } = props;
+
   /** @type {number} Les données à utiliser sont-elles à obtenir localement ? */
   const haveToMock = parseInt(window.localStorage.getItem('haveToMock')) || 0;
 
@@ -21,10 +24,8 @@ function Error(props) {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    console.log(`Reload ${reload}`);
+    console.log(`Error reload ${reload}`);
   }, [reload]);
-
-  const { codeStatus, isLoading, error, errorMessage } = props;
 
   if (error && codeStatus === 'ERR_NETWORK') {
     console.log(`${Date.now()} - ${codeStatus}`);
@@ -51,7 +52,7 @@ function Error(props) {
             Cliquer pour utiliser un mock des données
           </button>
         ) : reload === true ? (
-          <Redirect push to={`/dashboard/home/`} />
+          <Redirect push to={`/dashboard/home/${userId}`} />
         ) : null}
       </ButtonWrapper>
     </div>
@@ -59,10 +60,11 @@ function Error(props) {
 }
 
 Error.propTypes = {
+  userId: PropTypes.number.isRequired,
   codeStatus: PropTypes.string.isRequired,
+  error: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
 };
 
 Error.defaultProps = {

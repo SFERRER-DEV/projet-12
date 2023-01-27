@@ -44,18 +44,16 @@ export function useFetchUser(id) {
     /**
      * @description Récupérer via l'Api les principales données d'un utilisateur
      * @param {number} id L'identifiant de l'utilisateur
+     * @param {Function} setData Une fonction de mise à jour du State spécifique à ce endpoint
      * @param {string} [endpoint] Une requête pour obtenir des données (.env)
-     * @param {Function} [setData] Une fonction de mise à jour du State spécifique à ce endpoint
      * @returns {void}
      */
-    async function fetchData(id, endpoint = '', setData = setUserData) {
+    async function fetchData(id, setData, endpoint = '') {
       /** @type {string} Requête pour pour récupérer des données avec un des endpoints de l'API http */
       const uri = `${process.env['REACT_APP_GET_USER']}/${id}${
         endpoint === '' ? '' : `${endpoint}`
       }`;
-      // Nettoyer les erreurs précédentes
-      setError(false);
-      setErrorMessage('');
+
       // Requêter
       await http
         .get(uri)
@@ -65,46 +63,56 @@ export function useFetchUser(id) {
             data: { data },
           } = response;
           // Successful responses (200 – 299)
-          setCodeStatus(response.statusText);
-          console.log(`${uri} => ${response.statusText}`);
+          console.log(`${Date.now()} - ${uri} => ${response.statusText}`);
           // Renseigner les données dans le State grâce à la fonction spécifique passée en paramètre
           setData(data);
         })
         .catch((error /** est un object AxiosError */) => {
+          // affichage de l'objet config utilisé
+          // console.log(`${Date.now()} - ${error.config}`);
           if (error.response) {
             // si la réponse est en erreur
-            console.log(error.response.data);
-            console.log(error.response.status); // exemple `Request failed with status code 404`
-            console.log(error.response.headers);
+            console.log(`${Date.now()} - ${error.response.data}`);
+            console.log(`${Date.now()} - ${error.response.status}`); // exemple `Request failed with status code 404`
+            console.log(`${Date.now()} - ${error.response.headers}`);
           } else if (error.request) {
             // si une erreur est survenue lors de l'envoi de la requête
-            console.log(error.request); // les réponses `Server error` sont traitées pour mocker les données  (500 - 599)
+            console.log(`${Date.now()} - ${error.request}`); // les réponses `Server error` sont traitées pour mocker les données  (500 - 599)
           } else {
             // si une erreur est survenue lors de l'initialisation de la requête
-            console.log('Error', error.message);
+            console.log(`${Date.now()} - ${error.message}`);
           }
-          // affichage de l'objet config utilisé
-          console.log(error.config);
-          // Renseigner les variables retournées
-          setError(true);
-          setErrorMessage(error.message);
-          setCodeStatus(error.code); // ERR_NETWORK, ERR_BAD_REQUEST,
-        })
-        .finally(() => setLoading(false));
+          throw new Error(error.message, { cause: error });
+        });
     }
 
-    // Aller chercher les données principales de l'utilisateur
-    fetchData(id); // #1
-    // Obtenir les données d'activité
-    fetchData(id, process.env['REACT_APP_GET_ACTIVITY'], setDataActivity);
-    // Obtenir les données des sessions
-    fetchData(id, process.env['REACT_APP_GET_SESSIONS'], setDataSessions);
-    // Obtenir les données de performance
-    fetchData(id, process.env['REACT_APP_GET_PERFORMANCE'], setDataPerformance);
+    // Il y a 4 requêtes différentes pour appeler l'api : 4 x Axios.get()
+    fetchData(id, setUserData)
+      .then(() =>
+        fetchData(id, setDataActivity, process.env['REACT_APP_GET_ACTIVITY'])
+      )
+      .then(() =>
+        fetchData(id, setDataSessions, process.env['REACT_APP_GET_SESSIONS'])
+      )
+      .then(() =>
+        fetchData(
+          id,
+          setDataPerformance,
+          process.env['REACT_APP_GET_PERFORMANCE']
+        )
+      )
+      .catch((error) => {
+        // Les 4 requêtes partagent une même et unique variable de State pour signaler une erreur
+        setError(true);
+        setCodeStatus(error.cause.code);
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [id]);
 
   return {
-    id,
     codeStatus,
     setCodeStatus,
     data,

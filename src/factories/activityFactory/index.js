@@ -31,8 +31,9 @@ function activityFactory(json) {
     /** @type {Activity[]} Un tableau des objets fabriqués de type Activité */
     let arr = [];
     if (sessions === undefined) {
+      // FIXME: getActivities(): sessions === undefined
       console.error('getActivities(): sessions === undefined');
-      return []; // @TODO /!\
+      return [];
     }
     // Parcourir toutes les données json des durées de sessions pour instancier des objets typés
     sessions.forEach((a /** @type {ActivityJSON} */) => {

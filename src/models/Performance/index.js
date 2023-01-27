@@ -1,5 +1,5 @@
 class Performance {
-  /** @type {Maps} Une collection partagée avec toutes les classes des tous les libellés numérotés des performances */
+  /** @type {Maps} Une collection partagée de tous les libellés numérotés des performances */
   static _kinds = new Map();
 
   /**
@@ -7,7 +7,7 @@ class Performance {
    * cardio, energy, endurance, strength, speed, itensity
    * @param {number} kind Un indice correspondant à un libellé de performance
    * @param {number} level Le niveau de la performance (valeur)
-   * @param {Map} [kinds] La collection partagée avec toutes les classes des libellés des performances
+   * @param {Map} [kinds] La collection partagée des libellés des performances
    */
   constructor(kind, level, kinds = null) {
     /** @type {number} Un indice correspondant à un libellé de performance */

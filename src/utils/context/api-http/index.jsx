@@ -8,21 +8,21 @@ export const UserContext = createContext();
 /**
  * @description Contexte pour partager les données d'un utilisateur en allant les chercher avec l'API http sur le Backend
  * @param {Object} props
+ * @param {number} props.userId L'identifiant utilisateur obtenu depuis le routing
  * @param {*} props.children Les enfants passés au contexte de données
  * @returns {Object} Le provider de contexte des données principales de l'utilisateur
  */
-export const UserProvider = ({ children }) => {
-  const haveToMock = parseInt(window.localStorage.getItem('haveToMock')) || 0
+export const UserProvider = (props) => {
+  const { userId, children } = props;
+  /**
+   * @typedef {Object} params
+   * @property {number} params.id L'identifiant utilisateur obtenu depuis la route */
+  /** @type {params} */
+  const haveToMock = parseInt(window.localStorage.getItem('haveToMock')) || 0;
   console.log(`${Date.now()} - UserProvider: haveToMock ? ${haveToMock}`);
-
-  /** @type {number} L'identifiant utlisateur a été mémorisé localement  */
-  let userId = parseInt(window.localStorage.getItem('userId'));
-  // Protection contre la suppression manuelle de l'id de la route dashboard/home/:id
-  if (isNaN(userId)) userId = null;
 
   /** @type {Context} */
   const {
-    id,
     codeStatus,
     setCodeStatus,
     data,
@@ -35,19 +35,20 @@ export const UserProvider = ({ children }) => {
     setError,
     errorMessage,
     setErrorMessage,
+  } =
     // eslint-disable-next-line react-hooks/rules-of-hooks
-  } = haveToMock === 0 ? useFetchUser(userId) : useFetchUserMock(userId); // Aller chercher les données sur le backend ou localement
+    haveToMock === 0 ? useFetchUser(userId) : useFetchUserMock(userId); // Aller chercher les données sur le backend ou localement
 
   return (
     <UserContext.Provider
       value={{
-        id,
+        userId,
         codeStatus,
         setCodeStatus,
-        data,
-        dataActivity,
-        dataSessions,
-        dataPerformance,
+        /** @type {Object} */ data,
+        /** @type {Object} */ dataActivity,
+        /** @type {Object} */ dataSessions,
+        /** @type {Object} */ dataPerformance,
         isLoading,
         setLoading,
         error,

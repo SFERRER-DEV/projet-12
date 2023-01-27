@@ -9,11 +9,7 @@ import {
   PolarGrid,
   ResponsiveContainer,
 } from 'recharts';
-import styled from 'styled-components';
 import colors from '../../utils/style/colors';
-
-/** @type {Object} Le conteneur du composant est une balise `<div>`  */
-const Container = styled.div``;
 
 /**
  * @description Un composant pour afficher  la performance de l'utilisateur:
@@ -38,7 +34,7 @@ function Performance({ performances }) {
   });
 
   return (
-    <Container className="dashboard__profile__performance">
+    <div className="dashboard__profile__performance">
       <ResponsiveContainer height="100%" width="100%">
         <RadarChart
           data={data.reverse()}
@@ -55,12 +51,12 @@ function Performance({ performances }) {
           />
         </RadarChart>
       </ResponsiveContainer>
-    </Container>
+    </div>
   );
 }
 
 Performance.propTypes = {
-  performance: PropTypes.arrayOf(PropTypes.instanceOf(ClassPerformance))
+  performances: PropTypes.arrayOf(PropTypes.instanceOf(ClassPerformance))
     .isRequired,
 };
 

@@ -1,13 +1,14 @@
 import axios from 'axios';
+import { number } from 'prop-types';
 import { useState, useEffect } from 'react';
 /** @typedef {import('../../context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
 
 /**
  * @description Service pour récupérer les données mockées d'un utilisateur dans le le fichier local avec l'Api Axios
- * @param {number} id Idenfifiant d'un utilisateur
+ * @param {number | undefined} userId Idenfifiant d'un utilisateur
  * @returns {UserContext} Les données de State à retourner et leurs fonctions de mise à jour
  */
-export function useFetchUserMock(id) {
+export function useFetchUserMock(userId) {
   /** @typedef {Object} data Les données principales d'un utilisateur au format JSON */
   const [data, setUserData] = useState({});
   /** @typedef {Object} dataActivity Les données de l'activité quotidienne d'un utilisateur au format JSON */
@@ -43,10 +44,10 @@ export function useFetchUserMock(id) {
 
     /**
      * @description Récupérer via l'Api les principales données d'un utilisateur
-     * @param {number} id L'identifiant de l'utilisateur
+     * @param {number} userId L'identifiant de l'utilisateur
      * @returns {void}
      */
-    async function fetchData(id) {
+    async function fetchData(userId) {
       /** @type {string} Chemin vers le fichier JSON dans le dossier public/ */
       let uri = `${process.env['REACT_APP_LOCAL_FILE']}`;
       // Nettoyer les erreurs précédentes
@@ -78,7 +79,7 @@ export function useFetchUserMock(id) {
             ['USER_PERFORMANCE', USER_PERFORMANCE, setDataPerformance],
           ];
           // Aller chercher toutes les données et les mémoriser dans le State
-          findAllData(id, allData, setError, setErrorMessage);
+          findAllData(userId, allData, setError, setErrorMessage);
         })
         .catch((error /** est un object AxiosError */) => {
           if (error.response) {
@@ -95,20 +96,30 @@ export function useFetchUserMock(id) {
           }
           // affichage de l'objet config utilisé
           console.log(error.config);
-          // Renseigner les variables retournées
-          setError(true);
+          // Renseigner les variables de States
+          setError(false);
+          setErrorMessage('');
           setErrorMessage(error.message);
           setCodeStatus(error.code); // ERR_NETWORK, ERR_BAD_REQUEST
         })
         .finally(() => setLoading(false));
     }
 
-    // Aller chercher toutes les données d'un utilisateur
-    fetchData(id);
-  }, [id]);
+    // Vérification pour éviter un fetchData
+    if (
+      !isNaN(userId) &&
+      (typeof userId === 'number' || userId instanceof number)
+    ) {
+      // Aller chercher toutes les données mockées d'un utilisateur
+      fetchData(userId);
+    } else {
+      setError(true);
+      setErrorMessage(`L'identifiant n'est pas valide`);
+      setLoading(false);
+    }
+  }, [userId]);
 
   return {
-    id,
     codeStatus,
     setCodeStatus,
     data,
@@ -128,13 +139,13 @@ export function useFetchUserMock(id) {
  * @description ReCherche pour un utilisateur toutes les données c'est à dire les principales, d'activité, de performance et de sessions.
  * Les différentes données trouvées sont mémorisées avec leurs fonctions spécifiques de mise à jour du State.
  * Si des données ne sont pas trouvées alors la recherche s'arrête et nous avertie de l'erreur.
- * @param {number} id L'identifiant d'un utilisateur
+ * @param {number} userId L'identifiant d'un utilisateur
  * @param {Array<Array<[string, Object, Function]>>} allData Tableau 2d contenant le nom de toutes les rubriques json, les données json déstructurées correpondantes et les fonctions respectives de mise à jour du State
  * @param {Function} setError
  * @param {Function} setErrorMessage
  * @returns {Object} Retourne l'objet json trouvé
  */
-const findAllData = (id, allData, setError, setErrorMessage) => {
+const findAllData = (userId, allData, setError, setErrorMessage) => {
   //
   allData.every((item) => {
     /** @type {string} Le nom de la rubrique json */
@@ -149,11 +160,11 @@ const findAllData = (id, allData, setError, setErrorMessage) => {
      * @property {Object} json  L'objet json trouvé ou un objet vide {}
      */
     /** @type {findData} */
-    const { find, json } = findData(data, id);
+    const { find, json } = findData(data, userId);
     if (!find) {
       setError(true);
       setErrorMessage(
-        `Aucune donnée mockée n'a été trouvée dans la section ${cat} du fichier json pour l'identifiant ${id}`
+        `Aucune donnée mockée n'a été trouvée dans la partie ${cat} du fichier json pour l'identifiant ${userId}`
       );
       return false;
     } else {
@@ -167,12 +178,12 @@ const findAllData = (id, allData, setError, setErrorMessage) => {
 /**
  * @description Chercher un objet de données json d'après un identifiant utilisateur dans un tableau d'objets json
  * @param {Object[]} data Un tableau d'objets json obtenu depuis une rubrique json des données mockées
- * @param {number} id Un identifiant utilisateur  (attention à userId ~ id)
- * @returns {Object} findData Retourne l'objet json trouvé (ou  sinon un objet vide)
+ * @param {number} userId Un identifiant utilisateur  (attention à userId ~ id)
+ * @returns {Object} findData
  * @returns {boolean} findData.find Est-ce que les données de cet utilisateur ont été trouvées ?
  * @returns {Object} findData.json  L'objet json trouvé ou un objet vide {}
  */
-const findData = (data, id) => {
+const findData = (data, userId) => {
   // L'identifiant utlisateur est nommé de deux façons différentes dans les fichier json : id ~ userId
   /** @type {boolean} L'identifiant utilisateur est nommé `id` dans ces données json */
   const ok = data.every((item) => item.hasOwnProperty('id'));
@@ -184,9 +195,9 @@ const findData = (data, id) => {
   /** @type {Object} L'objet json à retourner */
   let json;
   if (ok) {
-    json = data.filter((item) => item.id === id).shift(); // Trouver les données
+    json = data.filter((item) => item.id === userId).shift(); // Trouver les données
   } else if (ko) {
-    json = data.filter((item) => item.userId === id).shift(); // Trouver les données
+    json = data.filter((item) => item.userId === userId).shift(); // Trouver les données
   }
   if (json !== undefined) {
     find = true;

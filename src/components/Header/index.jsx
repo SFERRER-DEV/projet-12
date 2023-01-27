@@ -1,4 +1,4 @@
-import { useParams, useLocation } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.svg';
 import styled from 'styled-components';
@@ -7,9 +7,8 @@ import { StyledLink1, StyledLink2 } from '../../utils/style/Atoms';
 
 /** @type {Object} L'entête de page est une balise `<header>` */
 const PageHeader = styled.header`
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-column: auto / span 2;
+  grid-column: 1 / span 2;
+  grid-row: 1;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -54,30 +53,12 @@ const NavContainer = styled.nav`
 
 /**
  * Un composant pour afficher l'entête de page avec la navigation principale
+ * @param {Object} props
+ * @param {number} props.userId L'identifiant de l' utilisateur obtenu précédement depuis la route
  * @returns {React.ReactElement} Un composant Header
  */
 function Header(props) {
-  /** @type {string} uri identifiant de la route d'accès actuelle */
-  const uri = useLocation().pathname;
-
-  /** @type {number} L'identifiant utlisateur a été mémorisé localement #1 */
-  const userId = parseInt(window.localStorage.getItem('userId'));
-  /** @typedef {number} id identifiant utilisateur obtenu depuis le paramètre id de la route #2 */
-  const { id } = useParams();
-  /** @type {number} uriUserId identifiant extrait depuis la chaine de caractères de la route actuelle # 3*/
-  const uriUserId = parseInt(uri.split(/[//]+/).pop());
-  /** @typedef {number} defaultUserId identifiant de l'utilisateur défini par défaut #4*/
-  const { defaultUserId } = props;
-
-  /** @type {number} choosenId identifiant utilisateur prévalant */
-  let choosenId =
-    id === undefined
-      ? userId === undefined
-        ? uriUserId === undefined || isNaN(uriUserId)
-          ? defaultUserId // Obtenu par défaut avec la PropTypes (= Karl)
-          : uriUserId // Obtenu dans la chaine de la route
-        : userId // Obtenu depuis le localStorage
-      : id; // Obtenu depuis le routing
+  const { userId } = props;
 
   return (
     <PageHeader className="pageheader">
@@ -89,28 +70,28 @@ function Header(props) {
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={`/dashboard/home/${choosenId}`}
+          to={`/dashboard/home/${userId}`}
         >
           Accueil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={`/dashboard/profile/${choosenId}`}
+          to={`/dashboard/profile/${userId}`}
         >
           Profil
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={`/dashboard/setting/${choosenId}`}
+          to={`/dashboard/setting/${userId}`}
         >
           Réglage
         </StyledLink1>
         <StyledLink1
           activeClassName="navlink"
           className="pageheader__nav__link"
-          to={`/dashboard/community/${choosenId}`}
+          to={`/dashboard/community/${userId}`}
         >
           Communauté
         </StyledLink1>
@@ -120,11 +101,7 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  defaultUserId: PropTypes.number,
-};
-
-Header.defaultProps = {
-  defaultUserId: 12, // Karl est l'utilisateur affiché par défaut
+  userId: PropTypes.number.isRequired,
 };
 
 export default Header;

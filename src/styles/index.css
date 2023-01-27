@@ -28,11 +28,17 @@ body {
   font-size: 1em;
 }
 
-/* conteneur de la page */
+/* Placer la balise Main des différentes pages sur sa cellule dans la grille de #root */
 .dashboard,
 .homepage,
 .demopage {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-row: auto / span 2;
   display: flex;
+  flex-direction: column;
   width: 100%;
 }
 

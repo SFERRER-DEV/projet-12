@@ -27,7 +27,7 @@ function performanceFactory(json) {
     // Les libellés numérotés des performances sont fournis une seule fois pour toute
     if (Performance.kinds.size === 0) {
       if (kind === undefined) {
-        // @TODO /!\
+        // FIXME: getPerformance(): kind === undefined')
         console.error('getPerformance(): kind === undefined');
       } else {
         kinds = getLabels(kind);
@@ -44,8 +44,9 @@ function performanceFactory(json) {
     /** @type {Performance[]} Un tableau des objets fabriqués de type Performance */
     let performances = [];
     if (data === undefined) {
+      // FIXME: getPerformances: data === undefined
       console.error('getPerformances: data === undefined');
-      return []; // @TODO /!\
+      return [];
     }
     // Parcourir toutes les données json des niveaux de performance pour instancier des objets typés
     data.forEach((p /** @type {DataPerformanceJSON} */) => {

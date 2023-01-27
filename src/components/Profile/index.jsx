@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { UserContext } from '../../utils/context/api-http';
-import styled from 'styled-components';
 // Composants enfants
 import Loader from '../Loader';
 import Error from '../Error';
@@ -17,20 +17,16 @@ import sessionFactory from '../../factories/sessionFactory';
 import activityFactory from '../../factories/activityFactory';
 /** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
-/** @type {Object} Cette balise `<div>` est la 2eme grille imbriquée,  son parent est la balise `<main>` qui  luis sert de balise anonyme pour être contnenue dans la 1ere grille qui est #root */
-const Grid = styled.div``;
-
-/** @type {Object} Cette balise `<div>` contient les données clés Calories, protéines, glucides, lipides dans la dernière colonne de la grille et s'étend sur 4 lignes */
-const DataKeys = styled.div`
-  border: 1px black green;
-`;
-
 /**
  * @description Un composant pour fabrique et afficher un profil utlisateur et les graphiques de ses activités sportives
  * Ce composant se connect au contexte de données
+ * @param {Object} props
+ * @param {string} props.userId L'identifiant de l'utilisateur obtenu précédement depuis la route
  * @returns {React.ReactElement} Profile
  */
-function Profile() {
+function Profile(props) {
+  const { userId } = props;
+
   /**  @typedef {number} seconds Nombre de seconde(s) à attendre */
   const [
     /** @type {seconds} */
@@ -82,13 +78,15 @@ function Profile() {
     <Loader seconds={seconds} setSeconds={setSeconds} />
   ) : error ? (
     <Error
+      userId={userId}
       codeStatus={codeStatus}
       isLoading={isLoading}
       error={error}
       errorMessage={errorMessage}
     />
   ) : (
-    <Grid className="dashboard__profile">
+    /**Cette balise `<section>` est la 2eme grille imbriquée,  son parent est la balise `main` qui  lui sert de balise anonyme pour être contnenue dans la 1ere grille qui est dans #root */
+    <section className="dashboard__profile">
       <Hello firstname={user?.firstName} />
       {/** les graphiques  */}
       <Score todayScore={user?.todayScore} />
@@ -96,7 +94,7 @@ function Profile() {
       <Sessions sessions={user.sessions} />
       <Performance performances={user.performances} />
       {/** les Cards des données clefs  */}
-      <DataKeys className="dashboard__profile__datakeys">
+      <div className="dashboard__profile__datakeys">
         {user.keysData.map(({ keyName, designation, data, unit }, index) => (
           <KeyData
             key={`${keyName}-${1000 + index}`}
@@ -106,9 +104,13 @@ function Profile() {
             unit={unit}
           />
         ))}
-      </DataKeys>
-    </Grid>
+      </div>
+    </section>
   );
 }
+
+Profile.propTypes = {
+  userId: PropTypes.number.isRequired,
+};
 
 export default Profile;

@@ -12,11 +12,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import styled from 'styled-components';
 import colors from '../../utils/style/colors';
-
-/** @type {Object} Le conteneur du composant est une balise `<div>`  */
-const Container = styled.div``;
 
 /**
  * Un composant pour afficher les jours d'activité
@@ -80,7 +76,7 @@ function Activity({ activities }) {
   }
 
   return (
-    <Container className="dashboard__profile__activity">
+    <div className="dashboard__profile__activity">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
@@ -164,7 +160,7 @@ function Activity({ activities }) {
           />
         </BarChart>
       </ResponsiveContainer>
-    </Container>
+    </div>
   );
 }
 
