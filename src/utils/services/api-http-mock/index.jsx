@@ -168,7 +168,7 @@ const findAllData = (userId, allData, setError, setErrorMessage) => {
  * @description Chercher un objet de données json d'après un identifiant utilisateur dans un tableau d'objets json
  * @param {Object[]} data Un tableau d'objets json obtenu depuis une rubrique json des données mockées
  * @param {number} userId Un identifiant utilisateur  (attention à userId ~ id)
- * @returns {Object} findData Retourne l'objet json trouvé (ou  sinon un objet vide)
+ * @returns {Object} findData
  * @returns {boolean} findData.find Est-ce que les données de cet utilisateur ont été trouvées ?
  * @returns {Object} findData.json  L'objet json trouvé ou un objet vide {}
  */

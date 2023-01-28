@@ -1,5 +1,4 @@
-import React, { createContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { createContext } from 'react';
 import { useFetchUser } from '../../services/api-http';
 import { useFetchUserMock } from '../../services/api-http-mock';
 /** @typedef {import('../typedef').UserContext} Context Raccourci important des types des données du JSON */

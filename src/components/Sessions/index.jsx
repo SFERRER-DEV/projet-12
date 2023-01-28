@@ -11,11 +11,7 @@ import {
   Rectangle,
   Area,
 } from 'recharts';
-import styled from 'styled-components';
 import colors from '../../utils/style/colors';
-
-/** @type {Object} Le conteneur du composant est une balise `<div>`  */
-const Container = styled.div``;
 
 /**
  * @description Un composant pour afficher la durée moyenne des sessions
@@ -89,7 +85,7 @@ function Sessions({ sessions }) {
   };
 
   return (
-    <Container className="dashboard__profile__sessions">
+    <div className="dashboard__profile__sessions">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
@@ -139,7 +135,7 @@ function Sessions({ sessions }) {
           />
         </AreaChart>
       </ResponsiveContainer>
-    </Container>
+    </div>
   );
 }
 

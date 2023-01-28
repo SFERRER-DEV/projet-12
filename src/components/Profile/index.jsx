@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { UserContext } from '../../utils/context/api-http';
-import styled from 'styled-components';
 // Composants enfants
 import Loader from '../Loader';
 import Error from '../Error';
@@ -17,11 +16,6 @@ import performanceFactory from '../../factories/performanceFactory';
 import sessionFactory from '../../factories/sessionFactory';
 import activityFactory from '../../factories/activityFactory';
 /** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
-
-/** @type {Object} Cette balise `<div>` contient les données clés Calories, protéines, glucides, lipides dans la dernière colonne de la grille et s'étend sur 4 lignes */
-const DataKeys = styled.div`
-  border: 1px black green;
-`;
 
 /**
  * @description Un composant pour fabrique et afficher un profil utlisateur et les graphiques de ses activités sportives
@@ -43,16 +37,13 @@ function Profile(props) {
   /** @type {Context} */
   const {
     codeStatus,
-    setCodeStatus,
     data,
     dataActivity,
     dataSessions,
     dataPerformance,
     isLoading,
     error,
-    setError,
     errorMessage,
-    setErrorMessage,
   } = useContext(UserContext);
 
   /** @type {Object} Un utilisateur à fabriquer */
@@ -103,7 +94,7 @@ function Profile(props) {
       <Sessions sessions={user.sessions} />
       <Performance performances={user.performances} />
       {/** les Cards des données clefs  */}
-      <DataKeys className="dashboard__profile__datakeys">
+      <div className="dashboard__profile__datakeys">
         {user.keysData.map(({ keyName, designation, data, unit }, index) => (
           <KeyData
             key={`${keyName}-${1000 + index}`}
@@ -113,7 +104,7 @@ function Profile(props) {
             unit={unit}
           />
         ))}
-      </DataKeys>
+      </div>
     </section>
   );
 }

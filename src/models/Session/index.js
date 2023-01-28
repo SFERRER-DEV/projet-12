@@ -13,7 +13,7 @@ class Session {
 
   /**
    * @constructor Une Session quotidienne
-   * @param {number} day Jour de lsemaine
+   * @param {number} day Jour de la semaine
    * @param {number} sessionLength Durée de session
    */
   constructor(day, sessionLength) {
@@ -24,7 +24,7 @@ class Session {
   }
   /**
    * @readonly
-   * @property {number} day Le numéro de jour de semaine
+   * @property {number} day Le numéro du jour de semaine
    */
   get day() {
     return this._day;
