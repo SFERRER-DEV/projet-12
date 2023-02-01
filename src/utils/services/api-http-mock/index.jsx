@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-/** @typedef {import('../../context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
+/** @typedef {import('../../context/typedef').UserContext} UserContext */
 
 /**
- * @description Service pour récupérer les données mockées d'un utilisateur dans le le fichier local avec l'Api Axios
+ * Service pour récupérer les données mockées d'un utilisateur dans le le fichier local avec l'Api Axios
+ * @function useFetchUserMock
  * @param {number | undefined} userId Idenfifiant d'un utilisateur
  * @returns {UserContext} Les données de State à retourner et leurs fonctions de mise à jour
  */
@@ -70,7 +71,7 @@ export function useFetchUserMock(userId) {
           // Successful responses (200 – 299)
           setCodeStatus(response.statusText);
           console.log(`${uri} => ${response.statusText}`);
-          /** @type {Array<Array<[string, Object, Function]>>} Tableau  contenant le nom de toutes les rubriques json avec leurs données json déstructurées correpondantes et leurs fonctions de mise à jour du State correspondantes */
+          /** @type {Array.<Array.<string, Object, Function>>} Tableau  contenant le nom de toutes les rubriques json avec leurs données json déstructurées correpondantes et leurs fonctions de mise à jour du State correspondantes */
           const allData = [
             ['USER_MAIN_DATA', USER_MAIN_DATA, setUserData],
             ['USER_ACTIVITY', USER_ACTIVITY, setDataActivity],
@@ -125,17 +126,17 @@ export function useFetchUserMock(userId) {
 }
 
 /**
- * @description ReCherche pour un utilisateur toutes les données c'est à dire les principales, d'activité, de performance et de sessions.
- * Les différentes données trouvées sont mémorisées avec leurs fonctions spécifiques de mise à jour du State.
- * Si des données ne sont pas trouvées alors la recherche s'arrête et nous avertie de l'erreur.
+ * Rechercher pour un utilisateur : ses données principales,  d'activité, de performance et de sessions.
+ * Mémoriser les données trouvées avec leurs fonctions spécifiques de mise à jour du State.
+ * Si une des données recherchées n'est pas trouvée alors la recherche s'arrête et nous avertie de l'erreur.
+ * @function
  * @param {number} userId L'identifiant d'un utilisateur
- * @param {Array<Array<[string, Object, Function]>>} allData Tableau 2d contenant le nom de toutes les rubriques json, les données json déstructurées correpondantes et les fonctions respectives de mise à jour du State
+ * @param {Array.<Array.<string, Object, Function>>} allData Tableau 2d contenant le nom de toutes les rubriques json, les données json déstructurées correpondantes et les fonctions respectives de mise à jour du State
  * @param {Function} setError
  * @param {Function} setErrorMessage
- * @returns {Object} Retourne l'objet json trouvé
+ * @returns {boolean} Est-ce que toutes les données recherchées ont été trouvées ?
  */
 const findAllData = (userId, allData, setError, setErrorMessage) => {
-  //
   allData.every((item) => {
     /** @type {string} Le nom de la rubrique json */
     const cat = item[0];
@@ -157,7 +158,7 @@ const findAllData = (userId, allData, setError, setErrorMessage) => {
       );
       return false;
     } else {
-      // Renseigner les données
+      // Mémoriser la donnée trouvée à l'aide de sa fonction spécifique de mise à jour du State
       setFunction(json);
       return true;
     }
@@ -165,12 +166,13 @@ const findAllData = (userId, allData, setError, setErrorMessage) => {
 };
 
 /**
- * @description Chercher un objet de données json d'après un identifiant utilisateur dans un tableau d'objets json
+ * Chercher un objet de données json d'après un identifiant utilisateur dans un tableau d'objets json
+ * @function
  * @param {Object[]} data Un tableau d'objets json obtenu depuis une rubrique json des données mockées
  * @param {number} userId Un identifiant utilisateur  (attention à userId ~ id)
- * @returns {Object} findData
+ * @returns {Object} findData Les données trouvées
  * @returns {boolean} findData.find Est-ce que les données de cet utilisateur ont été trouvées ?
- * @returns {Object} findData.json  L'objet json trouvé ou un objet vide {}
+ * @returns {Object} Retourne l'objet json trouvé ou un objet vide {}
  */
 const findData = (data, userId) => {
   // L'identifiant utlisateur est nommé de deux façons différentes dans les fichier json : id ~ userId

@@ -6,11 +6,13 @@ import { useFetchUserMock } from '../../services/api-http-mock';
 export const UserContext = createContext();
 
 /**
- * @description Contexte pour partager les données d'un utilisateur en allant les chercher avec l'API http sur le Backend
+ * Contexte pour partager les données d'un utilisateur en allant les chercher avec l'API http soit sur le Backend,
+ * soit dans le fichier local data.json
+ * @function
  * @param {Object} props
  * @param {number} props.userId L'identifiant utilisateur obtenu depuis le routing
- * @param {*} props.children Les enfants passés au contexte de données
- * @returns {Object} Le provider de contexte des données principales de l'utilisateur
+ * @param {any} props.children Les enfants passés au contexte de données
+ * @returns {React.Context<any>} Le provider de contexte des données d'un utilisateur
  */
 export const UserProvider = (props) => {
   const { userId, children } = props;
@@ -42,7 +44,7 @@ export const UserProvider = (props) => {
   return (
     <UserContext.Provider
       value={{
-        userId,
+        /** @type {number} */ userId /** Le renvoyer car a été casté en nombre avant d'être passé aux props  */,
         codeStatus,
         setCodeStatus,
         /** @type {Object} */ data,

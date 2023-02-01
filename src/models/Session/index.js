@@ -12,7 +12,8 @@ class Session {
   ];
 
   /**
-   * @constructor Une Session quotidienne
+   * Une Session quotidienne
+   * @constructor
    * @param {number} day Jour de la semaine
    * @param {number} sessionLength Durée de session
    */

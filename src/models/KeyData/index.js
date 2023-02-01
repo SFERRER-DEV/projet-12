@@ -16,8 +16,8 @@ class KeyData {
   ];
 
   /**
-   * @constructor Les données clefs des utilisateurs :
-   * - Calories, protéïnes, glucides, lipides.
+   *  Les données clefs des utilisateurs :  calories, protéïnes, glucides, lipides
+   * @constructor
    * @param {Keys} key L'identifiant de la donnée clef est son nom de propriété JSON
    * @param {number} data Valeur de la donnée
    */

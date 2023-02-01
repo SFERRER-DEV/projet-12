@@ -6,10 +6,11 @@ import keysDataFactory from '../keysDataFactory';
 
 /**
  * Usine pour fabriquer un utilisateur avec ses données clefs à partir des données JSON
+ * @class
  * @param {UserJSON} json Les données JSON d'un utilisateur
- * @returns {Object} manufactured L'utilisateur fabriqué
+ * @returns {Object} manufactured
  * @returns {number} manufactured.id L'identifiant de l'utilisateur
- * @returns {User} manufactured.getUser L'utilisateur
+ * @returns {User} manufactured.getUser L'utilisateur fabriqué
  */
 function userFactory(json) {
   const { id, userInfos, keyData } = json;

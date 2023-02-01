@@ -3,7 +3,8 @@ import Session from '../../models/Session';
 /** @typedef {import('../../utils/context/typedef').SessionJSON} SessionJSON Raccourci pour importer des types des propriétés JSON */
 
 /**
- * @description Usine pour fabriquer un tableau des sessions de la semaine d'un utilisateur à partir des données JSON
+ * Usine pour fabriquer un tableau des sessions de la semaine d'un utilisateur à partir des données JSON
+ * @class
  * @param {SessionJSON} json Les données JSON des sessions d'un utilisateur
  * @returns {Object} manufactured
  * @returns {number} manufactured.userId L'identifiant utilisateur

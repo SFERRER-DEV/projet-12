@@ -5,7 +5,6 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/DashboardPage';
 import DemoPage from './pages/DemoPage';
 import Copyright from './components/Copyright';
-
 import './styles/index.css';
 import GlobalStyle from './utils/style/GlobalStyle';
 
@@ -49,8 +48,10 @@ root.render(
         <Route path="/dashboard/community/:id">
           <DemoPage pageName="Communauté" />
         </Route>
+        <Route path="*">
+          <DemoPage pageName="404" />
+        </Route>
       </Switch>
     </Router>
   </React.StrictMode>
 );
-//  <Route path="*">{/** Erreur */}</Route>

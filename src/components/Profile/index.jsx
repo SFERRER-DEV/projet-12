@@ -18,8 +18,10 @@ import activityFactory from '../../factories/activityFactory';
 /** @typedef {import('../../utils/context/typedef').UserContext} Context Raccourci pour importer des types des propriétés JSON */
 
 /**
- * @description Un composant pour fabrique et afficher un profil utlisateur et les graphiques de ses activités sportives
- * Ce composant se connect au contexte de données
+ * Un composant pour fabriquer un utilisateur, ses activités, ses sessions et ses performances.
+ * Ce composant se connecte au contexte de données.
+ * Ce composant affiche les activités sportives dans des graphiques différents.
+ * @function
  * @param {Object} props
  * @param {string} props.userId L'identifiant de l'utilisateur obtenu précédement depuis la route
  * @returns {React.ReactElement} Profile
