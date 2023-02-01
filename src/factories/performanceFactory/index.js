@@ -3,8 +3,8 @@ import Performance from '../../models/Performance';
 /** @typedef {import('../../utils/context/typedef').DataPerformanceJSON} DataPerformanceJSON Raccourci pour importer des types des propriétés JSON */
 
 /**
- * @description Usine pour fabriquer un tableau de toutes les performances d'un utilisateur
- * cardio, energy, endurance, strength, speed, itensity
+ *  Usine pour fabriquer un tableau de toutes les performances d'un utilisateur cardio, energy, endurance, strength, speed, itensity
+ * @class
  * @param {PerformanceJSON} json Les données JSON des performances d'un utilisateur
  * @returns {Object} manufactured Les performances fabriquées d'un utilisateur
  * @returns {number} manufactured.userId L'identifiant utilisateur

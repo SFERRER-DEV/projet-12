@@ -3,9 +3,10 @@ import Activity from '../../models/Activity';
 /** @typedef {import('../../utils/context/typedef').ActivityJSON} ActivityJSON Raccourci pour importer des types des propriétés JSON */
 
 /**
- * @description Usine pour fabriquer un tableau des jours d'activité d'un utilisateur à partir des données JSON
+ * Usine pour fabriquer un tableau des jours d'activité d'un utilisateur à partir des données JSON
+ * @class
  * @param {ActivityJSON} json Les données JSON des activités d'un utilisateur
- * @returns {Object} manufactured
+ * @returns {Object} manufactured à fabriquer
  * @returns {number} manufactured.userId L'identifiant utilisateur
  * @returns {Activity[]} manufactured.getActivities Les jours d'activité de l'utilisateur
  */
@@ -18,7 +19,7 @@ function activityFactory(json) {
    * @param {Date} day La date yyyy-mm-dd de l'activité
    * @param {number} kilogram Le poids utilisateur
    * @param {number} calories Les calories consommées
-   * @returns {Activity} L'activité fabriquée
+   * @returns {Activity} Une activité fabriquée
    */
   function getActivity(day, kilogram, calories) {
     return new Activity(day, kilogram, calories);

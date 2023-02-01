@@ -48,8 +48,10 @@ root.render(
         <Route path="/dashboard/community/:id">
           <DemoPage pageName="Communauté" />
         </Route>
+        <Route path="*">
+          <DemoPage pageName="404" />
+        </Route>
       </Switch>
     </Router>
   </React.StrictMode>
 );
-//  <Route path="*">{/** Erreur */}</Route>

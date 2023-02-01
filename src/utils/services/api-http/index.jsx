@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-/** @typedef {import('../../context/typedef').UserContext} UserContext Raccourci pour importer des types des propriétés JSON */
+/** @typedef {import('../../context/typedef').UserContext} UserContext */
 
 /**
- * @description Service pour récupérer les données mockées d'un utilisateur dans le le fichier  avec l'Api Axios
+ * Service pour récupérer les données mockées d'un utilisateur dans le le fichier  avec l'Api Axios
+ * @function useFetchUser
  * @param {number} id Idenfifiant d'un utilisateur
  * @returns {UserContext} Les données de State à retourner et leurs fonctions de mise à jour
  */

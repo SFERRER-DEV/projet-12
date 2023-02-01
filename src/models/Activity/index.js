@@ -1,6 +1,7 @@
 class Activity {
   /**
-   * @constructor Une session d'activité
+   * Une session d'activité
+   * @constructor
    * @param {Date} day La date  yyyy-mm-dd de la session de l'activité
    * @param {number} kilogram Le poids du jour
    * @param {number} calories Les calories consommés

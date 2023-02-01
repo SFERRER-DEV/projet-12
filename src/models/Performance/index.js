@@ -3,8 +3,8 @@ class Performance {
   static _kinds = new Map();
 
   /**
-   * @constructor Une performance spécifique de l'utilisateur
-   * cardio, energy, endurance, strength, speed, itensity
+   * Une performance spécifique de l'utilisateur : cardio, energy, endurance, strength, speed, itensity
+   * @constructor
    * @param {number} kind Un indice correspondant à un libellé de performance
    * @param {number} level Le niveau de la performance (valeur)
    * @param {Map} [kinds] La collection partagée des libellés des performances

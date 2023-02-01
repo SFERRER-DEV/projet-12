@@ -3,6 +3,7 @@ import KeyData from '../../models/KeyData';
 
 /**
  * Usine pour fabriquer un utilisateur avec ses données clefs à partir des données JSON
+ * @class
  * @param {KeyDataJSON} json Les données JSON d'un utilisateur
  * @returns {Array.<KeyData>} Un tableau des données clés typées KeyData
  */

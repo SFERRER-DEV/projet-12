@@ -1,6 +1,7 @@
 class User {
   /**
-   * @constructor Une classe pour instancier un utilisateur
+   * Une classe pour instancier un utilisateur
+   * @constructor
    * @param {number} id
    * @param {string} firstName
    * @param {string} lastName

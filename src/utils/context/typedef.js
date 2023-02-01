@@ -52,7 +52,6 @@
  */
 /**
  * @typedef {Object} UserContext
- * @property {number} id Un identifiant utilisateur demandé pour requêter les données
  * @property {string} codeStatus Code Axios d'après le code HTTP indiquant comment s'est passée la requête
  * @property {Function} setCodeStatus Fonction de mise à jour du State
  * @property {Object} data Les données utilisateur au format JSON

@@ -21,7 +21,7 @@ import colors from '../../utils/style/colors';
  * @returns {React.ReactElement} Un composant Activity
  */
 function Activity({ activities }) {
-  /** @type {Objet[]} Modèle de données pour le graphique BarChart*/
+  /** @type {Objet[]} Modèle de données pour le graphique BarChart */
   const data = [];
 
   // Préparer le tableau d'objets json correspondant au modèle de données attendu par le BarChart
